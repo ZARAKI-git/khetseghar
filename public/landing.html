@@ -1,0 +1,3580 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><span class="en">KhetSeGhar | Fresh From Farm to Your Home</span><span class="hi">खेत से घर | खेत से सीधे आपके
+      घर तक</span></title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Noto+Sans+Devanagari:wght@300;400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root {
+      --soil: #3D2B1F;
+      --wheat: #E8C97A;
+      --leaf: #2D6A4F;
+      --sprout: #52B788;
+      --earth: #6B4226;
+      --cream: #FFF8ED;
+      --sky: #B7E4C7;
+      --sun: #F4A261;
+      --deep: #1B4332;
+      --light-leaf: #D8F3DC;
+      --red: #E63946;
+      --card-bg: #FFFDF7;
+      --border: rgba(61, 43, 31, 0.1);
+      --shadow: 0 8px 40px rgba(61, 43, 31, 0.12)
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--soil);
+      overflow-x: hidden
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      height: 72px;
+      background: rgba(255, 248, 237, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border)
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--leaf), var(--sprout));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1
+    }
+
+    .logo-en {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--leaf)
+    }
+
+    .logo-hi {
+      font-family: 'Noto Sans Devanagari', sans-serif;
+      font-size: 11px;
+      color: var(--earth)
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--soil);
+      font-size: 14px;
+      font-weight: 500;
+      transition: color .2s
+    }
+
+    .nav-links a:hover {
+      color: var(--leaf)
+    }
+
+    .lang-btn {
+      background: var(--light-leaf);
+      border: none;
+      border-radius: 20px;
+      padding: 6px 14px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--deep);
+      transition: all .2s
+    }
+
+    .lang-btn:hover {
+      background: var(--sky)
+    }
+
+    .nav-cta {
+      background: var(--leaf) !important;
+      color: white !important;
+      padding: 10px 22px;
+      border-radius: 24px;
+      font-weight: 600 !important
+    }
+
+    .nav-cta:hover {
+      background: var(--deep) !important
+    }
+
+    .cart-btn {
+      position: relative;
+      background: var(--cream);
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all .2s
+    }
+
+    .cart-btn:hover {
+      border-color: var(--leaf);
+      color: var(--leaf)
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      background: var(--red);
+      color: white;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 10px;
+      font-weight: 700;
+      display: none;
+      align-items: center;
+      justify-content: center
+    }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 100px 5% 60px;
+      position: relative;
+      overflow: hidden
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(82, 183, 136, .15) 0%, transparent 60%), radial-gradient(ellipse at 20% 80%, rgba(232, 201, 122, .2) 0%, transparent 50%);
+      z-index: 0
+    }
+
+    .hero-pattern {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(45, 106, 79, .06) 1px, transparent 1px);
+      background-size: 32px 32px;
+      z-index: 0
+    }
+
+    .hero-left {
+      position: relative;
+      z-index: 1
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--light-leaf);
+      border-radius: 30px;
+      padding: 8px 16px;
+      margin-bottom: 28px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--deep);
+      animation: fadeUp .6s ease both
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--sprout);
+      animation: blink 2s infinite
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1)
+      }
+
+      50% {
+        opacity: .5;
+        transform: scale(1.3)
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0
+      }
+
+      to {
+        opacity: 1
+      }
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-8px)
+      }
+    }
+
+    @keyframes marquee {
+      from {
+        transform: translateX(0)
+      }
+
+      to {
+        transform: translateX(-50%)
+      }
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(38px, 5vw, 68px);
+      font-weight: 900;
+      line-height: 1.05;
+      color: var(--soil);
+      animation: fadeUp .6s .1s ease both
+    }
+
+    .hero-title .accent {
+      color: var(--leaf)
+    }
+
+    .hero-title .uw {
+      position: relative
+    }
+
+    .hero-title .uw::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--wheat);
+      border-radius: 2px
+    }
+
+    .hero-hindi {
+      font-family: 'Noto Sans Devanagari', sans-serif;
+      font-size: 21px;
+      color: var(--earth);
+      margin-top: 8px;
+      animation: fadeUp .6s .15s ease both
+    }
+
+    .hero-desc {
+      font-size: 17px;
+      color: #5a4a3a;
+      line-height: 1.7;
+      margin-top: 24px;
+      max-width: 480px;
+      animation: fadeUp .6s .2s ease both
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 32px;
+      animation: fadeUp .6s .25s ease both
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column
+    }
+
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--leaf)
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--earth);
+      font-weight: 500;
+      margin-top: 2px
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      margin-top: 36px;
+      flex-wrap: wrap;
+      animation: fadeUp .6s .3s ease both
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--leaf), var(--sprout));
+      color: white;
+      border: none;
+      padding: 16px 32px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .3s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 20px rgba(45, 106, 79, .4);
+      font-family: 'DM Sans', sans-serif
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(45, 106, 79, .5)
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--soil);
+      border: 2px solid var(--border);
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .3s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'DM Sans', sans-serif
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--leaf);
+      color: var(--leaf);
+      background: var(--light-leaf)
+    }
+
+    .hero-right {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn .8s .4s ease both
+    }
+
+    .phone-mockup {
+      width: 268px;
+      height: 540px;
+      background: var(--soil);
+      border-radius: 40px;
+      padding: 12px;
+      box-shadow: 0 40px 80px rgba(61, 43, 31, .3), 0 0 0 8px rgba(61, 43, 31, .1);
+      transform: rotate(3deg);
+      transition: transform .3s
+    }
+
+    .phone-mockup:hover {
+      transform: rotate(0) translateY(-8px)
+    }
+
+    .phone-screen {
+      width: 100%;
+      height: 100%;
+      background: var(--cream);
+      border-radius: 30px;
+      overflow: hidden;
+      position: relative
+    }
+
+    .phone-notch {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 24px;
+      background: var(--soil);
+      border-radius: 0 0 16px 16px;
+      z-index: 10
+    }
+
+    .phone-content {
+      padding: 32px 14px 14px;
+      height: 100%;
+      overflow: hidden
+    }
+
+    .phone-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px
+    }
+
+    .phone-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--leaf)
+    }
+
+    .phone-search {
+      background: white;
+      border-radius: 12px;
+      padding: 9px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      border: 1px solid var(--border);
+      font-size: 11px;
+      color: #aaa
+    }
+
+    .phone-section-title {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--earth);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px
+    }
+
+    .phone-cards {
+      display: flex;
+      gap: 8px;
+      overflow: hidden
+    }
+
+    .phone-card {
+      flex-shrink: 0;
+      width: 100px;
+      background: white;
+      border-radius: 14px;
+      padding: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .06)
+    }
+
+    .phone-card-img {
+      width: 100%;
+      height: 62px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin-bottom: 6px
+    }
+
+    .phone-card-name {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--soil)
+    }
+
+    .phone-card-price {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--leaf);
+      margin-top: 2px
+    }
+
+    .phone-card-farmer {
+      font-size: 9px;
+      color: #aaa;
+      margin-top: 2px
+    }
+
+    .floating-badge {
+      position: absolute;
+      background: white;
+      border-radius: 14px;
+      padding: 9px 13px;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, .14);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      animation: float 3s ease-in-out infinite
+    }
+
+    .badge-1 {
+      top: 80px;
+      right: -36px
+    }
+
+    .badge-2 {
+      bottom: 120px;
+      left: -46px;
+      animation-delay: 1s
+    }
+
+    /* MARQUEE */
+    .marquee-section {
+      background: var(--leaf);
+      padding: 15px 0;
+      overflow: hidden
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 48px;
+      animation: marquee 25s linear infinite;
+      white-space: nowrap
+    }
+
+    .marquee-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: white;
+      font-size: 14px;
+      font-weight: 500;
+      flex-shrink: 0
+    }
+
+    .marquee-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--wheat)
+    }
+
+    /* SECTIONS */
+    section {
+      padding: 80px 5%
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--sprout);
+      margin-bottom: 16px
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 3vw, 46px);
+      font-weight: 800;
+      line-height: 1.15;
+      color: var(--soil)
+    }
+
+    .section-sub {
+      font-size: 16px;
+      color: #6b5a4e;
+      margin-top: 12px;
+      max-width: 560px;
+      line-height: 1.6
+    }
+
+    .section-hindi {
+      font-family: 'Noto Sans Devanagari', sans-serif;
+      font-size: 15px;
+      color: var(--earth);
+      margin-top: 6px
+    }
+
+    /* HOW IT WORKS */
+    #how {
+      background: white
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      margin-top: 56px;
+      position: relative
+    }
+
+    .steps-grid::before {
+      content: '';
+      position: absolute;
+      top: 40px;
+      left: 10%;
+      right: 10%;
+      height: 2px;
+      background: linear-gradient(to right, var(--light-leaf), var(--sprout), var(--light-leaf));
+      z-index: 0
+    }
+
+    .step-card {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 24px 16px
+    }
+
+    .step-num {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--cream);
+      border: 3px solid var(--light-leaf);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      margin-bottom: 18px;
+      transition: all .3s
+    }
+
+    .step-card:hover .step-num {
+      background: var(--leaf);
+      border-color: var(--leaf);
+      transform: scale(1.1)
+    }
+
+    .step-title {
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--soil);
+      margin-bottom: 6px
+    }
+
+    .step-hindi {
+      font-family: 'Noto Sans Devanagari', sans-serif;
+      font-size: 12px;
+      color: var(--earth);
+      margin-bottom: 8px
+    }
+
+    .step-desc {
+      font-size: 13px;
+      color: #7a6a60;
+      line-height: 1.6
+    }
+
+    /* PRODUCTS */
+    #products {
+      background: var(--cream)
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 28px 0 36px
+    }
+
+    .filter-tab {
+      padding: 9px 20px;
+      border-radius: 28px;
+      border: 2px solid var(--border);
+      background: transparent;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--soil);
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'DM Sans', sans-serif
+    }
+
+    .filter-tab:hover,
+    .filter-tab.active {
+      background: var(--leaf);
+      color: white;
+      border-color: var(--leaf)
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 22px
+    }
+
+    .product-card {
+      background: var(--card-bg);
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: all .3s;
+      cursor: pointer
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow)
+    }
+
+    .product-img {
+      height: 155px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+      position: relative
+    }
+
+    .badge-organic {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: var(--leaf);
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 18px
+    }
+
+    .badge-fresh {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: var(--sun);
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 18px
+    }
+
+    .product-info {
+      padding: 15px
+    }
+
+    .product-name {
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--soil)
+    }
+
+    .product-hindi {
+      font-family: 'Noto Sans Devanagari', sans-serif;
+      font-size: 12px;
+      color: var(--earth);
+      margin-top: 2px
+    }
+
+    .product-farmer-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 9px
+    }
+
+    .farmer-avatar-sm {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--sprout), var(--leaf));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: white;
+      font-weight: 700;
+      flex-shrink: 0
+    }
+
+    .farmer-name-sm {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--soil)
+    }
+
+    .farmer-loc-sm {
+      font-size: 10px;
+      color: #aaa
+    }
+
+    .product-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 13px;
+      padding-top: 13px;
+      border-top: 1px solid var(--border)
+    }
+
+    .product-price {
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--leaf)
+    }
+
+    .product-price span {
+      font-size: 12px;
+      font-weight: 400;
+      color: #aaa
+    }
+
+    .add-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--leaf);
+      color: white;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .add-btn:hover {
+      background: var(--deep);
+      transform: scale(1.1)
+    }
+
+    .stars {
+      color: #F4A261;
+      font-size: 11px;
+      margin-top: 5px
+    }
+
+    /* FARMERS */
+    #farmers {
+      background: white
+    }
+
+    .farmers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 22px;
+      margin-top: 44px
+    }
+
+    .farmer-card {
+      background: var(--cream);
+      border-radius: 22px;
+      padding: 26px;
+      border: 1px solid var(--border);
+      transition: all .3s;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer
+    }
+
+    .farmer-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(to right, var(--sprout), var(--leaf))
+    }
+
+    .farmer-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow)
+    }
+
+    .farmer-card-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px
+    }
+
+    .farmer-card-avatar {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--wheat), var(--sun));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px
+    }
+
+    .farmer-card-name {
+      font-weight: 700;
+      font-size: 17px;
+      color: var(--soil)
+    }
+
+    .farmer-card-village {
+      font-size: 12px;
+      color: #888
+    }
+
+    .farmer-card-hindi {
+      font-family: 'Noto Sans Devanagari', sans-serif;
+      font-size: 12px;
+      color: var(--earth)
+    }
+
+    .farmer-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 14px
+    }
+
+    .tag {
+      background: var(--light-leaf);
+      color: var(--deep);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 18px
+    }
+
+    .farmer-card-stats {
+      display: flex;
+      gap: 18px
+    }
+
+    .farmer-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center
+    }
+
+    .farmer-stat-num {
+      font-weight: 800;
+      font-size: 17px;
+      color: var(--leaf)
+    }
+
+    .farmer-stat-label {
+      font-size: 10px;
+      color: #aaa;
+      text-transform: uppercase;
+      letter-spacing: .5px
+    }
+
+    .verified-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(45, 106, 79, .1);
+      color: var(--leaf);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 18px;
+      margin-top: 11px
+    }
+
+    /* WHY */
+    #why {
+      background: var(--deep);
+      color: white
+    }
+
+    #why .section-title {
+      color: white
+    }
+
+    #why .section-sub {
+      color: rgba(255, 255, 255, .7)
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 26px;
+      margin-top: 52px
+    }
+
+    .why-card {
+      background: rgba(255, 255, 255, .07);
+      border-radius: 22px;
+      padding: 30px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      transition: all .3s
+    }
+
+    .why-card:hover {
+      background: rgba(255, 255, 255, .12);
+      transform: translateY(-4px)
+    }
+
+    .why-icon {
+      font-size: 38px;
+      margin-bottom: 18px
+    }
+
+    .why-title {
+      font-weight: 700;
+      font-size: 17px;
+      color: white;
+      margin-bottom: 7px
+    }
+
+    .why-hindi {
+      font-family: 'Noto Sans Devanagari', sans-serif;
+      font-size: 13px;
+      color: var(--sky);
+      margin-bottom: 10px
+    }
+
+    .why-desc {
+      font-size: 13px;
+      color: rgba(255, 255, 255, .6);
+      line-height: 1.7
+    }
+
+    /* APP */
+    #app {
+      background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 50%, #52B788 100%);
+      color: white;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 60px
+    }
+
+    #app .section-title {
+      color: white
+    }
+
+    #app .section-sub {
+      color: rgba(255, 255, 255, .75)
+    }
+
+    .app-features {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 28px
+    }
+
+    .app-feature {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: rgba(255, 255, 255, .1);
+      border-radius: 14px;
+      padding: 14px 18px;
+      border: 1px solid rgba(255, 255, 255, .15)
+    }
+
+    .app-feature-icon {
+      font-size: 22px
+    }
+
+    .app-feature-text strong {
+      display: block;
+      font-size: 14px;
+      color: white
+    }
+
+    .app-feature-text span {
+      font-size: 12px;
+      color: rgba(255, 255, 255, .6)
+    }
+
+    .download-btns {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 28px
+    }
+
+    .dl-btn {
+      background: white;
+      color: var(--soil);
+      border-radius: 14px;
+      padding: 13px 22px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: all .3s;
+      border: none
+    }
+
+    .dl-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, .3)
+    }
+
+    .dl-btn-icon {
+      font-size: 26px
+    }
+
+    .dl-btn-text {
+      display: flex;
+      flex-direction: column
+    }
+
+    .dl-btn-small {
+      font-size: 10px;
+      color: #888
+    }
+
+    .dl-btn-big {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--soil)
+    }
+
+    .app-phone-wrap {
+      display: flex;
+      justify-content: center
+    }
+
+    .app-phone {
+      width: 210px;
+      height: 420px;
+      background: rgba(255, 255, 255, .15);
+      border-radius: 34px;
+      padding: 10px;
+      box-shadow: 0 40px 80px rgba(0, 0, 0, .4);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, .3)
+    }
+
+    .app-phone-inner {
+      width: 100%;
+      height: 100%;
+      background: #111;
+      border-radius: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 44px;
+      position: relative;
+      overflow: hidden
+    }
+
+    .app-phone-inner::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 60%, rgba(0, 0, 0, .8))
+    }
+
+    .app-phone-label {
+      position: absolute;
+      bottom: 18px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+      z-index: 1
+    }
+
+    /* TESTIMONIALS */
+    #testimonials {
+      background: var(--cream)
+    }
+
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+      margin-top: 44px
+    }
+
+    .testi-card {
+      background: white;
+      border-radius: 22px;
+      padding: 26px;
+      border: 1px solid var(--border);
+      transition: all .3s
+    }
+
+    .testi-card:hover {
+      box-shadow: var(--shadow);
+      transform: translateY(-4px)
+    }
+
+    .testi-quote {
+      font-size: 44px;
+      color: var(--light-leaf);
+      font-family: 'Playfair Display', serif;
+      line-height: 1;
+      margin-bottom: 14px
+    }
+
+    .testi-text {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--soil);
+      margin-bottom: 18px
+    }
+
+    .testi-hindi {
+      font-family: 'Noto Sans Devanagari', sans-serif;
+      font-size: 12px;
+      color: var(--earth);
+      margin-top: 7px;
+      font-style: italic
+    }
+
+    .testi-author {
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .testi-avatar {
+      font-size: 26px
+    }
+
+    .testi-name {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--soil)
+    }
+
+    .testi-role {
+      font-size: 11px;
+      color: #888
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--soil);
+      color: white;
+      padding: 56px 5% 28px
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 36px;
+      margin-bottom: 44px
+    }
+
+    .footer-brand-desc {
+      font-size: 13px;
+      color: rgba(255, 255, 255, .6);
+      margin-top: 14px;
+      line-height: 1.7;
+      max-width: 260px
+    }
+
+    .footer-col-title {
+      font-weight: 700;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 18px;
+      color: var(--wheat)
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, .6);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color .2s
+    }
+
+    .footer-links a:hover {
+      color: var(--sprout)
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, .1);
+      padding-top: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px
+    }
+
+    .footer-bottom p {
+      font-size: 12px;
+      color: rgba(255, 255, 255, .5)
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 10px
+    }
+
+    .social-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all .2s;
+      border: none;
+      color: white
+    }
+
+    .social-btn:hover {
+      background: var(--sprout)
+    }
+
+    /* MODAL */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(0, 0, 0, .6);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all
+    }
+
+    .modal {
+      background: white;
+      border-radius: 26px;
+      padding: 34px;
+      max-width: 480px;
+      width: 100%;
+      transform: scale(.9);
+      transition: transform .3s;
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto
+    }
+
+    .modal-overlay.open .modal {
+      transform: scale(1)
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: var(--cream);
+      border: none;
+      border-radius: 50%;
+      width: 34px;
+      height: 34px;
+      cursor: pointer;
+      font-size: 17px;
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 7px
+    }
+
+    .modal-sub {
+      font-family: 'Noto Sans Devanagari', sans-serif;
+      color: var(--earth);
+      font-size: 13px;
+      margin-bottom: 22px
+    }
+
+    .modal-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px
+    }
+
+    .modal-tab {
+      flex: 1;
+      padding: 11px;
+      border-radius: 14px;
+      border: 2px solid var(--border);
+      background: transparent;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+      font-family: 'DM Sans', sans-serif
+    }
+
+    .modal-tab.active {
+      background: var(--leaf);
+      color: white;
+      border-color: var(--leaf)
+    }
+
+    .form-group {
+      margin-bottom: 14px
+    }
+
+    .form-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--soil);
+      margin-bottom: 5px;
+      display: block
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 13px;
+      border: 2px solid var(--border);
+      background: var(--cream);
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      transition: border-color .2s;
+      outline: none
+    }
+
+    .form-input:focus {
+      border-color: var(--sprout);
+      background: white
+    }
+
+    .form-select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 13px;
+      border: 2px solid var(--border);
+      background: var(--cream);
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+      cursor: pointer
+    }
+
+    .form-select:focus {
+      border-color: var(--sprout)
+    }
+
+    .form-submit {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, var(--leaf), var(--sprout));
+      color: white;
+      border: none;
+      border-radius: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .3s;
+      margin-top: 6px;
+      font-family: 'DM Sans', sans-serif
+    }
+
+    .form-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(45, 106, 79, .4)
+    }
+
+    .form-submit:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      transform: none
+    }
+
+    /* CHAT */
+    .chat-modal {
+      max-width: 520px
+    }
+
+    .chat-messages {
+      height: 280px;
+      overflow-y: auto;
+      background: var(--cream);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px
+    }
+
+    .chat-msg {
+      max-width: 75%;
+      padding: 10px 13px;
+      border-radius: 14px;
+      font-size: 13px;
+      line-height: 1.5
+    }
+
+    .chat-msg.farmer {
+      background: var(--light-leaf);
+      color: var(--deep);
+      align-self: flex-start;
+      border-bottom-left-radius: 4px
+    }
+
+    .chat-msg.customer {
+      background: var(--leaf);
+      color: white;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px
+    }
+
+    .chat-msg-time {
+      font-size: 10px;
+      opacity: .6;
+      margin-top: 3px
+    }
+
+    .chat-input-row {
+      display: flex;
+      gap: 8px
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: 11px 14px;
+      border-radius: 13px;
+      border: 2px solid var(--border);
+      background: white;
+      font-size: 13px;
+      font-family: 'DM Sans', sans-serif;
+      outline: none
+    }
+
+    .chat-input:focus {
+      border-color: var(--sprout)
+    }
+
+    .chat-send {
+      background: var(--leaf);
+      color: white;
+      border: none;
+      border-radius: 13px;
+      padding: 11px 16px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all .2s
+    }
+
+    .chat-send:hover {
+      background: var(--deep)
+    }
+
+    /* ORDER SUMMARY */
+    .order-summary {
+      background: var(--cream);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px
+    }
+
+    .order-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 7px;
+      color: var(--soil)
+    }
+
+    .order-total {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 800;
+      font-size: 17px;
+      padding-top: 11px;
+      border-top: 2px solid var(--border)
+    }
+
+    /* LOADING */
+    .spinner {
+      width: 38px;
+      height: 38px;
+      border: 3px solid var(--light-leaf);
+      border-top-color: var(--leaf);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 36px auto
+    }
+
+    .loading-text {
+      text-align: center;
+      color: var(--earth);
+      font-size: 13px;
+      margin-top: 10px
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 3000;
+      background: var(--soil);
+      color: white;
+      padding: 14px 22px;
+      border-radius: 14px;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, .3);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all .3s;
+      font-size: 13px;
+      font-weight: 500;
+      max-width: 300px
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1
+    }
+
+    .toast.success {
+      background: var(--leaf)
+    }
+
+    .toast.error {
+      background: var(--red)
+    }
+
+    /* DB STATUS */
+    .db-status {
+      position: fixed;
+      bottom: 28px;
+      left: 28px;
+      z-index: 999;
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 9px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--shadow);
+      transition: opacity .5s
+    }
+
+    .db-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ccc
+    }
+
+    .db-dot.connected {
+      background: #22c55e
+    }
+
+    .db-dot.error {
+      background: var(--red)
+    }
+
+    /* PRODUCT LISTING FORM (for farmers) */
+    .list-product-section {
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+      margin-top: 8px
+    }
+
+    .list-product-title {
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--soil);
+      margin-bottom: 14px
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px
+    }
+
+    /* RESPONSIVE */
+    @media(max-width:940px) {
+      #hero {
+        grid-template-columns: 1fr;
+        padding: 100px 5% 60px
+      }
+
+      .hero-right {
+        display: none
+      }
+
+      .steps-grid {
+        grid-template-columns: repeat(2, 1fr)
+      }
+
+      .steps-grid::before {
+        display: none
+      }
+
+      .why-grid {
+        grid-template-columns: 1fr 1fr
+      }
+
+      #app {
+        grid-template-columns: 1fr
+      }
+
+      .app-phone-wrap {
+        display: none
+      }
+
+      .testi-grid {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .footer-top {
+        grid-template-columns: 1fr 1fr
+      }
+    }
+
+    @media(max-width:620px) {
+      .why-grid {
+        grid-template-columns: 1fr
+      }
+
+      .testi-grid {
+        grid-template-columns: 1fr
+      }
+
+      .footer-top {
+        grid-template-columns: 1fr
+      }
+
+      .hero-stats {
+        flex-wrap: wrap;
+        gap: 18px
+      }
+
+      .hero-actions {
+        flex-direction: column
+      }
+
+      nav .nav-links a:not(.nav-cta):not(.lang-btn):not(#nav-login-link) {
+        display: none
+      }
+
+      .two-col {
+        grid-template-columns: 1fr
+      }
+    }
+
+
+    /* DASHBOARD */
+    .dashboard {
+      display: none;
+      padding: 90px 5% 40px;
+      min-height: 100vh;
+    }
+
+    .dashboard.active {
+      display: block;
+    }
+
+    .landing-content {
+      display: block;
+    }
+
+    .landing-content.hidden {
+      display: none;
+    }
+
+    .dash-header {
+      margin-bottom: 32px;
+    }
+
+    .dash-welcome {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(24px, 3vw, 36px);
+      font-weight: 800;
+      color: var(--soil);
+    }
+
+    .dash-role {
+      font-size: 14px;
+      color: var(--earth);
+      margin-top: 4px;
+    }
+
+    .dash-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 18px;
+      margin: 24px 0;
+    }
+
+    .dash-stat-card {
+      background: white;
+      border-radius: 18px;
+      padding: 22px;
+      border: 1px solid var(--border);
+      text-align: center;
+      transition: all .3s;
+    }
+
+    .dash-stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+
+    .dash-stat-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .dash-stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--leaf);
+    }
+
+    .dash-stat-label {
+      font-size: 12px;
+      color: var(--earth);
+      margin-top: 2px;
+    }
+
+    .dash-section {
+      margin-top: 36px;
+    }
+
+    .dash-section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--soil);
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .dash-btn {
+      background: linear-gradient(135deg, var(--leaf), var(--sprout));
+      color: white;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all .3s;
+    }
+
+    .dash-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(45, 106, 79, .4);
+    }
+
+    .dash-btn-outline {
+      background: transparent;
+      color: var(--leaf);
+      border: 2px solid var(--leaf);
+      padding: 10px 22px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all .2s;
+    }
+
+    .dash-btn-outline:hover {
+      background: var(--light-leaf);
+    }
+
+    .dash-empty {
+      text-align: center;
+      padding: 40px;
+      color: var(--earth);
+      font-size: 14px;
+      background: white;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+    }
+
+    .dash-product-card {
+      background: white;
+      border-radius: 18px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 12px;
+      transition: all .3s;
+    }
+
+    .dash-product-card:hover {
+      box-shadow: var(--shadow);
+    }
+
+    .dash-product-emoji {
+      font-size: 32px;
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dash-product-info {
+      flex: 1;
+    }
+
+    .dash-product-name {
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .dash-product-meta {
+      font-size: 12px;
+      color: var(--earth);
+      margin-top: 2px;
+    }
+
+    .dash-product-price {
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--leaf);
+    }
+
+    .dash-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .back-to-home {
+      background: none;
+      border: none;
+      color: var(--leaf);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .back-to-home:hover {
+      text-decoration: underline;
+    }
+
+    /* LANGUAGE TOGGLE */
+    body.lang-en .hi {
+      display: none !important;
+    }
+
+    body.lang-hi .en {
+      display: none !important;
+    }
+
+    /* PHONE INTERACTIVITY */
+    .phone-cards {
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      padding-bottom: 8px;
+    }
+
+    .phone-cards::-webkit-scrollbar {
+      display: none;
+    }
+
+    .phone-card {
+      scroll-snap-align: center;
+      cursor: pointer;
+    }
+
+    .phone-card:active {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+
+<body class="lang-en">
+
+  <!-- DB STATUS PILL -->
+  <div class="db-status" id="db-status">
+    <div class="db-dot" id="db-dot"></div>
+    <span id="db-label">Connecting to Supabase…</span>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <div class="logo-icon">🌾</div>
+      <div class="logo-text">
+        <span class="logo-en en">KhetSeGhar</span>
+        <span class="logo-hi hi">खेत से घर</span>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="#products">Shop</a>
+      <a href="#farmers">Farmers</a>
+      <a href="#how">How It Works</a>
+      <a href="#app">App</a>
+      <div id="google_translate_element" style="border-radius: 20px; overflow: hidden; background: var(--light-leaf);">
+      </div>
+      <button class="cart-btn" id="nav-cart-btn" onclick="openModal('cart')" style="display:none">🛒 Cart <span
+          class="cart-count" id="cart-count">0</span></button>
+      <a href="#" onclick="openModal('login');return false"
+        style="font-size:14px;font-weight:500;color:var(--soil);text-decoration:none" id="nav-login-link">Log In</a>
+      <a href="#" class="nav-cta" id="nav-join-btn" onclick="openModal('join');return false">Join Free</a>
+      <button class="nav-cta" id="nav-user-btn" style="display:none;border:none;cursor:pointer"
+        onclick="openModal('account')"></button>
+    </div>
+  </nav>
+
+  <!-- FARMER DASHBOARD -->
+  <div class="dashboard" id="farmer-dashboard">
+    <div class="dash-header">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+        <div>
+          <h1 class="dash-welcome">🌾 <span id="fd-name">Farmer</span>'s Dashboard</h1>
+          <p class="dash-role">Farmer Account · <span id="fd-email"></span></p>
+        </div>
+        <div class="dash-actions">
+          <button class="dash-btn" onclick="openModal('list-product')">📸 List New Crop</button>
+          <button class="dash-btn-outline" onclick="showLanding()">🏠 Back to Home</button>
+          <button class="dash-btn-outline" style="border-color:var(--red);color:var(--red)" onclick="logoutUser()">🚪
+            Logout</button>
+        </div>
+      </div>
+    </div>
+    <div class="dash-grid">
+      <div class="dash-stat-card">
+        <div class="dash-stat-icon">📦</div>
+        <div class="dash-stat-num" id="fd-products">0</div>
+        <div class="dash-stat-label">My Listings</div>
+      </div>
+      <div class="dash-stat-card">
+        <div class="dash-stat-icon">🛒</div>
+        <div class="dash-stat-num" id="fd-orders">0</div>
+        <div class="dash-stat-label">Orders</div>
+      </div>
+      <div class="dash-stat-card">
+        <div class="dash-stat-icon">⭐</div>
+        <div class="dash-stat-num" id="fd-rating">-</div>
+        <div class="dash-stat-label">Rating</div>
+      </div>
+      <div class="dash-stat-card">
+        <div class="dash-stat-icon">💰</div>
+        <div class="dash-stat-num" id="fd-sales">0</div>
+        <div class="dash-stat-label">Total Sales</div>
+      </div>
+    </div>
+    <div class="dash-section">
+      <div class="dash-section-title">My Crop Listings <button class="dash-btn" onclick="openModal('list-product')"
+          style="font-size:12px;padding:7px 16px">+ Add New</button></div>
+      <div id="fd-listings">
+        <div class="dash-empty">Loading your listings…</div>
+      </div>
+    </div>
+    <div class="dash-section">
+      <div class="dash-section-title">Recent Messages</div>
+      <div id="fd-messages-list">
+        <div class="dash-empty">Loading messages...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOMER DASHBOARD -->
+  <div class="dashboard" id="customer-dashboard">
+    <div class="dash-header">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+        <div>
+          <h1 class="dash-welcome">🛒 <span id="cd-name">Buyer</span>'s Dashboard</h1>
+          <p class="dash-role">Buyer Account · <span id="cd-email"></span></p>
+        </div>
+        <div class="dash-actions">
+          <button class="dash-btn"
+            onclick="showLanding();document.getElementById('products').scrollIntoView({behavior:'smooth'})">🛍️ Browse
+            Products</button>
+          <button class="dash-btn-outline" onclick="showLanding()">🏠 Back to Home</button>
+          <button class="dash-btn-outline" style="border-color:var(--red);color:var(--red)" onclick="logoutUser()">🚪
+            Logout</button>
+        </div>
+      </div>
+    </div>
+    <div class="dash-grid">
+      <div class="dash-stat-card" onclick="openModal('cart')"
+        style="cursor:pointer;border-color:var(--leaf);background:var(--light-leaf)">
+        <div class="dash-stat-icon">🛒</div>
+        <div class="dash-stat-num" id="cd-cart">0</div>
+        <div class="dash-stat-label">View My Cart</div>
+      </div>
+      <div class="dash-stat-card">
+        <div class="dash-stat-icon">📦</div>
+        <div class="dash-stat-num" id="cd-orders">0</div>
+        <div class="dash-stat-label">My Orders</div>
+      </div>
+      <div class="dash-stat-card">
+        <div class="dash-stat-icon">💬</div>
+        <div class="dash-stat-num" id="cd-messages">0</div>
+        <div class="dash-stat-label">Messages</div>
+      </div>
+    </div>
+    <div class="dash-section">
+      <div class="dash-section-title">Recent Orders</div>
+      <div id="cd-order-list">
+        <div class="dash-empty">No orders yet. Start shopping!</div>
+      </div>
+    </div>
+    <div class="dash-section">
+      <div class="dash-section-title">My Conversations</div>
+      <div id="cd-messages-list">
+        <div class="dash-empty">Loading messages...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LANDING CONTENT WRAPPER -->
+  <div id="landing-content">
+
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-pattern"></div>
+      <div class="hero-left">
+        <div class="hero-badge">
+          <div class="badge-dot"></div>Live in Punjab, Haryana & Delhi NCR
+        </div>
+        <h1 class="hero-title">Farm Fresh.<br><span class="accent">No</span> Middlemen.<br><span class="uw">Fair</span>
+          Prices.</h1>
+        <p class="hero-hindi hi">खेत से सीधे आपके घर — ताज़ा, शुद्ध और सस्ता</p>
+        <p class="hero-desc en">Connect directly with farmers across India. Buy fresh produce at honest prices. Farmers
+          set their own rates — no brokers, no markup.</p>
+        <div class="hero-stats">
+          <div class="stat"><span class="stat-num" id="stat-farmers">…</span><span class="stat-label">Farmers</span>
+          </div>
+          <div class="stat"><span class="stat-num" id="stat-products">…</span><span class="stat-label">Products</span>
+          </div>
+          <div class="stat"><span class="stat-num">₹0</span><span class="stat-label">Brokerage</span></div>
+        </div>
+        <div class="hero-actions">
+          <a href="#products" class="btn-primary"><span class="en">🛒 Shop Now</span><span class="hi">🛒 अभी
+              खरीदें</span></a>
+          <button class="btn-secondary" onclick="openModal('farmer-register')"><span class="en">🌱 Sell Your
+              Crops</span><span class="hi">🌱 अपनी फसल बेचें</span></button>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="floating-badge badge-1">🔒 Secure UPI Payments</div>
+        <div class="floating-badge badge-2">📍 Punjab, Haryana & More</div>
+        <div class="phone-mockup">
+          <div class="phone-screen">
+            <div class="phone-notch"></div>
+            <div class="phone-content">
+              <div class="phone-header"><span class="phone-logo">KhetSeGhar</span><span>🛒</span></div>
+              <div class="phone-search">🔍 Search crops, farmers…</div>
+              <div class="phone-section-title"><span class="en">FRESH TODAY</span><span class="hi">आज ताज़ा</span></div>
+              <div class="phone-cards" id="phone-preview">
+                <div class="phone-card" onclick="handlePhoneCardClick()">
+                  <div class="phone-card-img" style="background:#FFF9E6">🌾</div>
+                  <div class="phone-card-name">Wheat</div>
+                  <div class="phone-card-price">₹24/kg</div>
+                </div>
+                <div class="phone-card" onclick="handlePhoneCardClick()">
+                  <div class="phone-card-img" style="background:#E8F5E9">🥬</div>
+                  <div class="phone-card-name">Spinach</div>
+                  <div class="phone-card-price">₹18/kg</div>
+                </div>
+                <div class="phone-card" onclick="handlePhoneCardClick()">
+                  <div class="phone-card-img" style="background:#FFF3E0">🥭</div>
+                  <div class="phone-card-name">Mango</div>
+                  <div class="phone-card-price">₹120/doz</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee-section">
+      <div class="marquee-track">
+        <div class="marquee-item">
+          <div class="marquee-dot"></div>100% Fresh from Farm
+        </div>
+        <div class="marquee-item">
+          <div class="marquee-dot"></div>खेत से सीधे घर
+        </div>
+        <div class="marquee-item">
+          <div class="marquee-dot"></div><span class="en">No Middlemen</span><span class="hi">कोई दलाल नहीं</span>
+        </div>
+        <div class="marquee-item">
+          <div class="marquee-dot"></div>Farmers Set Own Price
+        </div>
+        <div class="marquee-item">
+          <div class="marquee-dot"></div>UPI Payments Supported
+        </div>
+        <div class="marquee-item">
+          <div class="marquee-dot"></div>Organic & Natural Crops
+        </div>
+        <div class="marquee-item">
+          <div class="marquee-dot"></div>ਖੇਤ ਤੋਂ ਘਰ — Punjabi Support
+        </div>
+        <div class="marquee-item">
+          <div class="marquee-dot"></div>Same Day Delivery Available
+        </div>
+        <div class="marquee-item">
+          <div class="marquee-dot"></div>100% Fresh from Farm
+        </div>
+        <div class="marquee-item">
+          <div class="marquee-dot"></div>खेत से सीधे घर
+        </div>
+        <div class="marquee-item">
+          <div class="marquee-dot"></div><span class="en">No Middlemen</span><span class="hi">कोई दलाल नहीं</span>
+        </div>
+        <div class="marquee-item">
+          <div class="marquee-dot"></div>Farmers Set Own Price
+        </div>
+        <div class="marquee-item">
+          <div class="marquee-dot"></div>UPI Payments Supported
+        </div>
+        <div class="marquee-item">
+          <div class="marquee-dot"></div>Organic & Natural Crops
+        </div>
+        <div class="marquee-item">
+          <div class="marquee-dot"></div>ਖੇਤ ਤੋਂ ਘਰ — Punjabi Support
+        </div>
+        <div class="marquee-item">
+          <div class="marquee-dot"></div>Same Day Delivery Available
+        </div>
+      </div>
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <section id="how">
+      <div class="section-label">⚙️ How It Works</div>
+      <h2 class="section-title">Simple. Direct. Fair.</h2>
+      <p class="section-hindi hi">सरल, सीधा, न्यायसंगत</p>
+      <p class="section-sub en">Four easy steps — from farm registration to your doorstep delivery.</p>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">🌾</div>
+          <div class="step-title">Farmer Registers</div>
+          <div class="step-hindi hi">किसान पंजीकरण करें</div>
+          <div class="step-desc en">Farmers sign up free, verify via Aadhaar & get their own shop page in minutes.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">📸</div>
+          <div class="step-title">List Produce</div>
+          <div class="step-hindi hi">फसल सूचीबद्ध करें</div>
+          <div class="step-desc en">Upload photo, set quantity and price yourself. Live in under 2 minutes.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">🛒</div>
+          <div class="step-title">Buyer Orders</div>
+          <div class="step-hindi hi">ग्राहक ऑर्डर दें</div>
+          <div class="step-desc en">Customers browse, chat with farmer, and pay via UPI, card, or COD.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">🚚</div>
+          <div class="step-title">Fresh Delivery</div>
+          <div class="step-hindi hi">ताज़ा डिलीवरी</div>
+          <div class="step-desc en">Produce delivered same-day or next-day. Farmer gets paid instantly.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section id="products">
+      <div class="section-label"><span class="en">🛒 Fresh Market</span><span class="hi">🛒 ताज़ा बाज़ार</span></div>
+      <h2 class="section-title">Today's Fresh Produce</h2>
+      <p class="section-sub en">Directly listed by farmers — prices set by them, not by brokers.</p>
+      <div class="filter-tabs">
+        <button class="filter-tab active" onclick="filterProducts(this,'')">🌿 All</button>
+        <button class="filter-tab" onclick="filterProducts(this,'grain')">🌾 Grains</button>
+        <button class="filter-tab" onclick="filterProducts(this,'veg')">🥦 Vegetables</button>
+        <button class="filter-tab" onclick="filterProducts(this,'fruit')">🍎 Fruits</button>
+        <button class="filter-tab" onclick="filterProducts(this,'dairy')">🥛 Dairy</button>
+        <button class="filter-tab" onclick="filterProducts(this,'spice')">🌶️ Spices</button>
+      </div>
+      <div class="products-grid" id="products-grid">
+        <div style="grid-column:1/-1;text-align:center;padding:40px">
+          <div class="spinner"></div>
+          <div class="loading-text">Loading fresh produce…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FARMERS -->
+    <section id="farmers">
+      <div class="section-label"><span class="en">👨‍🌾 Our Farmers</span><span class="hi">👨‍🌾 हमारे किसान</span>
+      </div>
+      <h2 class="section-title">Meet the Hands Behind Your Food</h2>
+      <p class="section-sub en">Real farmers. Real stories. Verified profiles and fresh produce every season.</p>
+      <div class="farmers-grid" id="farmers-grid">
+        <div style="grid-column:1/-1;text-align:center;padding:40px">
+          <div class="spinner"></div>
+          <div class="loading-text">Loading farmers…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY -->
+    <section id="why">
+      <div class="section-label" style="color:var(--sky)">✨ Why KhetSeGhar</div>
+      <h2 class="section-title">Why Farmers & Buyers Choose Us</h2>
+      <p class="section-sub en">Built for Indian farmers — every feature designed with them in mind.</p>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon">💰</div>
+          <div class="why-title">Farmers Earn More</div>
+          <div class="why-hindi hi">किसान अधिक कमाते हैं</div>
+          <div class="why-desc en">No middlemen means farmers keep 90%+ of the sale price. Transparent pricing, instant
+            UPI payouts.</div>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">🔒</div>
+          <div class="why-title">Safe & Verified</div>
+          <div class="why-hindi hi">सुरक्षित और सत्यापित</div>
+          <div class="why-desc en">All farmers verified via Aadhaar. All transactions secured. Buyer protection on every
+            order.</div>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">📱</div>
+          <div class="why-title">Works on Any Phone</div>
+          <div class="why-hindi hi">किसी भी फोन पर काम करे</div>
+          <div class="why-desc en">Designed for basic smartphones. Hindi, Punjabi & English UI. Voice search coming
+            soon.
+          </div>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">📍</div>
+          <div class="why-title">Hyperlocal First</div>
+          <div class="why-hindi hi">आपके नज़दीकी किसान</div>
+          <div class="why-desc en">Find farmers near you. Support local agriculture. Shorter travel, less waste.</div>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">💬</div>
+          <div class="why-title">Direct Chat</div>
+          <div class="why-hindi hi">सीधी बात</div>
+          <div class="why-desc en">Chat directly with the farmer. Negotiate price, ask about farming methods, schedule
+            pickup.</div>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">⭐</div>
+          <div class="why-title">Trusted Reviews</div>
+          <div class="why-hindi hi">भरोसेमंद समीक्षा</div>
+          <div class="why-desc en">Real buyer reviews on every farmer. Build trust over time. Top-rated farmers get
+            featured.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- APP -->
+    <section id="app">
+      <div>
+        <div class="section-label" style="color:var(--sky)">📱 Mobile App</div>
+        <h2 class="section-title">Take KhetSeGhar Everywhere</h2>
+        <p class="section-sub en">Buy, sell, chat, track orders — all in one place on your phone.</p>
+        <div class="app-features">
+          <div class="app-feature">
+            <div class="app-feature-icon">🌾</div>
+            <div class="app-feature-text"><strong><span class="en">Farmer Mode</span><span class="hi">किसान
+                  मोड</span></strong><span>List crops, set prices, manage orders in Hindi/Punjabi</span></div>
+          </div>
+          <div class="app-feature">
+            <div class="app-feature-icon">💳</div>
+            <div class="app-feature-text"><strong>Instant UPI Payout</strong><span>Money in your account within minutes
+                of
+                delivery</span></div>
+          </div>
+          <div class="app-feature">
+            <div class="app-feature-icon">🔔</div>
+            <div class="app-feature-text"><strong>Real-time Notifications</strong><span>Orders, messages, price alerts —
+                never miss a sale</span></div>
+          </div>
+        </div>
+        <div class="download-btns">
+          <button class="dl-btn" onclick="showToast('📱 App coming to Play Store soon!','success')"><span
+              class="dl-btn-icon">🤖</span>
+            <div class="dl-btn-text"><span class="dl-btn-small">Get it on</span><span class="dl-btn-big">Google
+                Play</span></div>
+          </button>
+          <button class="dl-btn" onclick="showToast('🍎 iOS App launching soon!','success')"><span
+              class="dl-btn-icon">🍎</span>
+            <div class="dl-btn-text"><span class="dl-btn-small">Download on the</span><span class="dl-btn-big">App
+                Store</span></div>
+          </button>
+        </div>
+      </div>
+      <div class="app-phone-wrap">
+        <div class="app-phone">
+          <div class="app-phone-inner">🌾<div class="app-phone-label">KhetSeGhar</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section id="testimonials">
+      <div class="section-label"><span class="en">💬 Stories</span><span class="hi">💬 कहानियाँ</span></div>
+      <h2 class="section-title">What They Say</h2>
+      <div class="testi-grid">
+        <div class="testi-card">
+          <div class="testi-quote">"</div>
+          <p class="testi-text en">I was getting ₹18/kg for wheat at the mandi. On KhetSeGhar I list it at ₹26 and
+            buyers
+            come to me. My income jumped 40% in one season.</p>
+          <p class="testi-hindi hi">मुझे मंडी में ₹18 मिलते थे, अब ₹26 मिलते हैं।</p>
+          <div class="testi-author"><span class="testi-avatar">👨‍🌾</span>
+            <div>
+              <div class="testi-name">Gurpreet Singh</div>
+              <div class="testi-role">Wheat Farmer, Ludhiana</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-quote">"</div>
+          <p class="testi-text en">I live in Delhi and always wanted fresh vegetables from actual farms. Now I order
+            directly from Haryana farmers. Quality is unmatched.</p>
+          <p class="testi-hindi hi">अब मैं सीधे खेत से सब्ज़ी मंगाती हूँ।</p>
+          <div class="testi-author"><span class="testi-avatar">👩</span>
+            <div>
+              <div class="testi-name">Priya Sharma</div>
+              <div class="testi-role">Customer, New Delhi</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-quote">"</div>
+          <p class="testi-text en">As a restaurant owner, I source all vegetables from 3 farmers on KhetSeGhar. Fresher
+            ingredients, lower cost, know exactly where food comes from.</p>
+          <p class="testi-hindi hi">हमारे रेस्तरां का सारा सामान अब किसानों से आता है।</p>
+          <div class="testi-author"><span class="testi-avatar">👨‍🍳</span>
+            <div>
+              <div class="testi-name">Rakesh Verma</div>
+              <div class="testi-role">Restaurant Owner, Chandigarh</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /landing-content -->
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="logo-icon">🌾</div>
+          <div class="logo-text">
+            <span
+              style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px;color:var(--wheat)">KhetSeGhar</span>
+            <span style="font-family:'Noto Sans Devanagari',sans-serif;font-size:12px;color:rgba(255,255,255,.5)">खेत से
+              घर</span>
+          </div>
+        </div>
+        <p class="footer-brand-desc">India's first truly farmer-first marketplace. Direct farm-to-home, no brokers, fair
+          pricing for everyone.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Platform</div>
+        <div class="footer-links"><a href="#products">Buy Produce</a><a href="#"
+            onclick="openModal('farmer-register');return false">Sell Crops</a><a href="#">Bulk Orders</a><a
+            href="#app">Mobile App</a></div>
+      </div>
+      <div>
+        <div class="footer-col-title">Support</div>
+        <div class="footer-links"><a href="#">Help Center</a><a href="#">Farmer Guide</a><a href="#">Buyer Guide</a><a
+            href="#">Contact Us</a></div>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <div class="footer-links"><a href="#">About Us</a><a href="#">Blog</a><a href="#">Careers</a><a href="#">Privacy
+            Policy</a><a href="#">Terms of Service</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 KhetSeGhar. Made with ❤️ for Indian Farmers. | खेत से घर</p>
+      <div class="footer-social">
+        <button class="social-btn">📘</button><button class="social-btn">📸</button><button
+          class="social-btn">🐦</button><button class="social-btn">▶️</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
+    <div class="modal" id="modal-box"></div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ═══════════════════════════════════════════════
+    //  SUPABASE CLIENT
+    // ═══════════════════════════════════════════════
+    if (typeof supabase === 'undefined') {
+      console.error('❌ ERROR: Supabase library failed to load! Check your internet or script tag.');
+      alert('⚠️ Critical Error: Supabase library could not be loaded. Please check your internet connection.');
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const SUPA_URL = urlParams.get('url');
+    const SUPA_KEY = urlParams.get('key');
+
+    let db;
+    try {
+      if (!SUPA_URL || !SUPA_KEY || SUPA_URL === 'undefined') {
+        throw new Error("Supabase URL or Key is missing from the iframe URL parameters.");
+      }
+      db = supabase.createClient(SUPA_URL, SUPA_KEY, {
+        auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true }
+      });
+      console.log('📦 Supabase Client Initialized');
+    } catch (err) {
+      console.error('❌ Failed to create Supabase client:', err);
+      // Show error immediately on screen
+      setTimeout(() => {
+        const dot = document.getElementById('db-dot');
+        const label = document.getElementById('db-label');
+        if (dot) dot.className = 'db-dot error';
+        if (label) label.textContent = '⚠ Config Error — Missing API Keys';
+      }, 500);
+    }
+
+    let cart = [];
+    let allProducts = [];
+    let activeCategory = '';
+    let currentUser = null;   // {type, id, name, email, authUid}
+    let activeFarmer = null;
+    let activeProduct = null;
+
+    // ═══════════════════════════════════════════════
+    //  CONNECTION CHECK
+    // ═══════════════════════════════════════════════
+    async function checkConnection() {
+      const dot = document.getElementById('db-dot');
+      const label = document.getElementById('db-label');
+
+      if (!db) return; // Already handled by init error
+
+      try {
+        const { error } = await db.from('farmers').select('id').limit(1);
+
+        if (error) throw error;
+
+        if (dot) dot.className = 'db-dot connected';
+        if (label) label.textContent = '✓ Supabase Connected';
+        setTimeout(() => {
+          const status = document.getElementById('db-status');
+          if (status) status.style.opacity = '0.4';
+        }, 3000);
+      } catch (e) {
+        console.error('❌ DB Connection Error:', e);
+        if (dot) dot.className = 'db-dot error';
+        if (label) label.textContent = '⚠ DB Error — Check SQL Schema';
+      }
+      await restoreSession();
+    }
+
+    // ═══════════════════════════════════════════════
+    //  AUTH — SESSION RESTORE
+    // ═══════════════════════════════════════════════
+    async function restoreSession() {
+      try {
+        const { data: { session } } = await db.auth.getSession();
+        if (!session) return;
+        const uid = session.user.id;
+        const email = session.user.email;
+        // Try farmer by auth_uid
+        let { data: farmer } = await db.from('farmers').select('*').eq('auth_uid', uid).maybeSingle();
+        // Fallback: find by email and link auth_uid
+        if (!farmer) {
+          const { data: fByEmail } = await db.from('farmers').select('*').eq('email', email).maybeSingle();
+          if (fByEmail) {
+            await db.from('farmers').update({ auth_uid: uid }).eq('id', fByEmail.id);
+            farmer = fByEmail;
+          }
+        }
+        if (farmer) { currentUser = { type: 'farmer', id: farmer.id, name: farmer.name, email, authUid: uid }; updateNavForUser(); return; }
+        // Try customer by auth_uid
+        let { data: customer } = await db.from('customers').select('*').eq('auth_uid', uid).maybeSingle();
+        // Fallback: find by email and link auth_uid
+        if (!customer) {
+          const { data: cByEmail } = await db.from('customers').select('*').eq('email', email).maybeSingle();
+          if (cByEmail) {
+            await db.from('customers').update({ auth_uid: uid }).eq('id', cByEmail.id);
+            customer = cByEmail;
+          }
+        }
+        if (customer) { currentUser = { type: 'customer', id: customer.id, name: customer.name, email, authUid: uid }; updateNavForUser(); return; }
+
+        // Fallback: Try profiles table (Next.js app)
+        let { data: profile } = await db.from('profiles').select('*').eq('id', uid).maybeSingle();
+        if (profile) {
+          currentUser = { type: profile.user_type === 'farmer' ? 'farmer' : 'customer', id: profile.id, name: profile.full_name, email, authUid: uid };
+          updateNavForUser();
+        }
+      } catch (e) { console.error('Session restore:', e); }
+    }
+
+    try {
+      if (db && db.auth) {
+        db.auth.onAuthStateChange(async (event, session) => {
+          if (event === 'SIGNED_OUT') { currentUser = null; updateNavForUser(); }
+          if (event === 'SIGNED_IN' && session) { await restoreSession(); }
+        });
+      }
+    } catch(e) { console.error('Auth state hook error:', e); }
+
+    function updateNavForUser() {
+      const joinBtn = document.getElementById('nav-join-btn');
+      const userBtn = document.getElementById('nav-user-btn');
+      const loginLink = document.getElementById('nav-login-link');
+      if (!joinBtn || !userBtn) return;
+      if (currentUser) {
+        joinBtn.style.display = 'none';
+        if (loginLink) loginLink.style.display = 'none';
+        userBtn.style.display = 'inline-flex';
+        userBtn.textContent = '📊 ' + (currentUser.name?.split(' ')[0] || 'User');
+        userBtn.onclick = function () { showDashboard(); };
+      } else {
+        joinBtn.style.display = 'inline-flex';
+        if (loginLink) loginLink.style.display = 'inline';
+        userBtn.style.display = 'none';
+      }
+    }
+
+    async function logoutUser() {
+      await db.auth.signOut();
+      currentUser = null; updateNavForUser();
+      showLanding();
+      showToast('Logged out successfully.', 'success');
+    }
+
+    // ═══════════════════════════════════════════════
+    //  PRODUCTS
+    // ═══════════════════════════════════════════════
+    async function loadProducts() {
+      document.getElementById('products-grid').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px"><div class="spinner"></div><div class="loading-text">Loading fresh produce…</div></div>';
+      try {
+        // FIX: Using is_available as per schema
+        let q = db.from('products').select('*, farmers(name, name_hindi, district, state, avatar_emoji, rating)').eq('is_available', true).order('created_at', { ascending: false });
+        if (activeCategory) q = q.eq('category', activeCategory);
+        const { data, error } = await q;
+        if (error) throw error;
+        allProducts = data || [];
+        renderProducts(allProducts);
+        // Update phone preview with live data
+        if (allProducts.length > 0) {
+          document.getElementById('phone-preview').innerHTML = allProducts.slice(0, 3).map(p => `
+        <div class="phone-card" onclick="handlePhoneCardClick()">
+          <div class="phone-card-img" style="background:${p.bg_color || '#FFF9E6'}">${p.emoji || '🌾'}</div>
+          <div class="phone-card-name">${p.name}</div>
+          <div class="phone-card-price">₹${p.price_per_unit}/${p.unit}</div>
+        </div>`).join('');
+        }
+        document.getElementById('stat-products').textContent = allProducts.length + '+';
+      } catch (e) {
+        console.error('Products error:', e);
+        document.getElementById('products-grid').innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--red)">⚠️ Could not load products.</div>`;
+      }
+    }
+
+    function renderProducts(list) {
+      const grid = document.getElementById('products-grid');
+      if (!list.length) {
+        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--earth)">No products in this category yet.</div>';
+        return;
+      }
+      grid.innerHTML = list.map(p => `
+    <div class="product-card" onclick="openOrderModal('${p.id}')">
+      <div class="product-img" style="background:${p.bg_color || '#FFF9E6'}">
+        ${p.emoji || '🌾'}
+        <div class="${p.is_organic ? 'badge-organic' : 'badge-fresh'}">${p.is_organic ? '🌿 Organic' : '⚡ Fresh'}</div>
+      </div>
+      <div class="product-info">
+        <div class="product-name">${p.name}</div>
+        <div class="product-hindi">${p.name_hindi || ''}</div>
+        <div class="stars">★★★★★ ${p.farmers?.rating || '4.5'}</div>
+        <div class="product-farmer-row">
+          <div class="farmer-avatar-sm">${(p.farmers?.name || 'F')[0]}</div>
+          <div>
+            <div class="farmer-name-sm">${p.farmers?.name || 'Farmer'}</div>
+            <div class="farmer-loc-sm">📍 ${p.farmers?.district || ''}, ${p.farmers?.state || ''}</div>
+          </div>
+        </div>
+        <div class="product-footer">
+          <div class="product-price">₹${p.price_per_unit} <span>/${p.unit}</span></div>
+          <button class="add-btn" onclick="event.stopPropagation();addToCart(${JSON.stringify({ id: p.id, name: p.name, emoji: p.emoji, price_per_unit: p.price_per_unit, unit: p.unit, farmer_id: p.farmer_id, farmer_name: p.farmers?.name }).replace(/"/g, '&quot;')})">+</button>
+        </div>
+      </div>
+    </div>`).join('');
+    }
+
+    function filterProducts(btn, cat) {
+      document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeCategory = cat;
+      loadProducts();
+    }
+
+    // ═══════════════════════════════════════════════
+    //  FARMERS
+    // ═══════════════════════════════════════════════
+    async function loadFarmers() {
+      try {
+        const { data, error } = await db.from('farmers').select('*').eq('is_active', true).order('rating', { ascending: false });
+        if (error) throw error;
+        const grid = document.getElementById('farmers-grid');
+        if (!data?.length) {
+          grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--earth)">No farmers yet. Be the first to register!</div>';
+          return;
+        }
+        document.getElementById('stat-farmers').textContent = data.length + '+';
+        grid.innerHTML = data.map(f => `
+      <div class="farmer-card" onclick="openChatModal('${f.id}','${(f.name).replace(/'/g, "\\'")}')">
+        <div class="farmer-card-top">
+          <div class="farmer-card-avatar">${f.avatar_emoji || '👨‍🌾'}</div>
+          <div>
+            <div class="farmer-card-name">${f.name}</div>
+            <div class="farmer-card-hindi">${f.name_hindi || ''}</div>
+            <div class="farmer-card-village">📍 ${f.village || ''}, ${f.district || ''}</div>
+          </div>
+        </div>
+        <div class="farmer-card-tags">${(f.crops_grown || []).map(c => `<span class="tag">${c}</span>`).join('')}</div>
+        <div class="farmer-card-stats">
+          <div class="farmer-stat"><span class="farmer-stat-num">${f.total_sales || 0}</span><span class="farmer-stat-label">Sales</span></div>
+          <div class="farmer-stat"><span class="farmer-stat-num">${f.rating || '0'}</span><span class="farmer-stat-label">Rating</span></div>
+          <div class="farmer-stat"><span class="farmer-stat-num">${(f.crops_grown || []).length}</span><span class="farmer-stat-label">Crops</span></div>
+        </div>
+        ${f.aadhaar_verified ? '<div class="verified-badge">✅ Aadhaar Verified</div>' : ''}
+        <div style="margin-top:11px;font-size:12px;color:var(--sprout);font-weight:600">💬 Chat with farmer →</div>
+      </div>`).join('');
+      } catch (e) {
+        document.getElementById('farmers-grid').innerHTML = '<div style="text-align:center;padding:40px;color:var(--red)">⚠️ Could not load farmers.</div>';
+      }
+    }
+
+    // ═══════════════════════════════════════════════
+    //  CART
+    // ═══════════════════════════════════════════════
+    function addToCart(product) {
+      if (!currentUser) {
+        showToast('Please log in to add items to your cart.', 'error');
+        openModal('login');
+        return;
+      }
+      if (typeof product === 'string') product = JSON.parse(product);
+      const ex = cart.find(i => i.id === product.id);
+      if (ex) ex.qty++;
+      else cart.push({ ...product, qty: 1 });
+      updateCartBadge();
+      showToast(`✅ ${product.name} added to cart!`, 'success');
+    }
+
+    function updateCartBadge() {
+      const total = cart.reduce((s, i) => s + i.qty, 0);
+      const b = document.getElementById('cart-count');
+      b.textContent = total;
+      b.style.display = total > 0 ? 'flex' : 'none';
+    }
+
+    // ═══════════════════════════════════════════════
+    //  MODAL SYSTEM
+    // ═══════════════════════════════════════════════
+    function openModal(type, data) {
+      const overlay = document.getElementById('modal-overlay');
+      const box = document.getElementById('modal-box');
+      box.className = 'modal';
+      overlay.classList.add('open');
+      if (type === 'join') box.innerHTML = joinHTML('buyer');
+      else if (type === 'farmer-register') box.innerHTML = joinHTML('farmer');
+      else if (type === 'login') box.innerHTML = loginHTML();
+      else if (type === 'account') box.innerHTML = accountHTML();
+      else if (type === 'cart') box.innerHTML = cartHTML();
+      else if (type === 'order') box.innerHTML = orderHTML(data);
+      else if (type === 'chat') { box.className = 'modal chat-modal'; box.innerHTML = chatHTML(data); loadChatMessages(data.farmerId, data.customerId); }
+      else if (type === 'list-product') box.innerHTML = listProductHTML();
+    }
+    function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
+    function handleOverlayClick(e) { if (e.target.id === 'modal-overlay') closeModal(); }
+
+    // ── LOGIN MODAL ──
+    function loginHTML() {
+      return `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2 class="modal-title">Welcome Back 👋</h2>
+    <p class="modal-sub">खेत से घर में लॉगिन करें</p>
+    <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="l-email" placeholder="you@example.com" type="email"></div>
+    <div class="form-group"><label class="form-label">Password</label><input class="form-input" id="l-password" placeholder="Your password" type="password" onkeydown="if(event.key==='Enter')loginUser()"></div>
+    <button class="form-submit" onclick="loginUser()">🔐 Log In</button>
+    <p style="text-align:center;margin-top:12px;font-size:13px;color:#888">
+      <a href="#" onclick="forgotPassword();return false" style="color:var(--leaf);font-weight:600">Forgot password?</a>
+    </p>
+    <p style="text-align:center;margin-top:8px;font-size:13px;color:#888">No account? <a href="#" onclick="openModal('join');return false" style="color:var(--leaf);font-weight:600">Register Free</a></p>`;
+    }
+
+    // ── ACCOUNT MODAL ──
+    function accountHTML() {
+      if (!currentUser) return loginHTML();
+      const icon = currentUser.type === 'farmer' ? '🌾' : '🛒';
+      const role = currentUser.type === 'farmer' ? 'Farmer' : 'Buyer';
+      return `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2 class="modal-title">${icon} My Account</h2>
+    <div style="background:var(--light-leaf);border-radius:16px;padding:18px;margin:16px 0">
+      <div style="font-size:36px;text-align:center;margin-bottom:10px">${icon}</div>
+      <div style="font-weight:700;font-size:18px;text-align:center">${currentUser.name}</div>
+      <div style="color:var(--earth);text-align:center;font-size:13px;margin-top:4px">${role} · ${currentUser.email || ''}</div>
+    </div>
+    ${currentUser.type === 'farmer' ? '<button class="form-submit" style="margin-bottom:12px" onclick="closeModal();openModal(\'list-product\')">📸 List New Crop</button>' : ''}
+    <button onclick="logoutUser();closeModal()" style="width:100%;padding:14px;border:2px solid var(--red);background:transparent;color:var(--red);border-radius:14px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit">🚪 Log Out</button>`;
+    }
+
+    // ── AUTH FUNCTIONS ──
+    async function loginUser() {
+      const email = document.getElementById('l-email').value.trim();
+      const password = document.getElementById('l-password').value;
+      if (!email || !password) { showToast('Enter email and password', 'error'); return; }
+      const btn = document.querySelector('.form-submit');
+      btn.disabled = true; btn.textContent = 'Logging in…';
+      try {
+        const { data, error } = await db.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        if (!data.user.email_confirmed_at) { btn.disabled = false; btn.textContent = 'Log In'; showToast('Please confirm your email first!', 'error'); return; }
+        await restoreSession();
+        closeModal();
+        showToast('Welcome back, ' + (currentUser?.name || email.split('@')[0]) + '!', 'success');
+        showDashboard();
+      } catch (e) { btn.disabled = false; btn.textContent = 'Log In'; showToast('Login failed: ' + (e.message || 'Wrong credentials'), 'error'); }
+    }
+
+    async function forgotPassword() {
+      const email = document.getElementById('l-email')?.value?.trim();
+      if (!email) { showToast('Enter your email above first', 'error'); return; }
+      const { error } = await db.auth.resetPasswordForEmail(email, { redirectTo: window.location.href });
+      if (error) { showToast('Error: ' + error.message, 'error'); return; }
+      showToast('Password reset link sent to ' + email, 'success');
+    }
+
+    // ── JOIN / REGISTER ──
+    function joinHTML(tab) {
+      return `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2 class="modal-title">Join KhetSeGhar</h2>
+    <p class="modal-sub">खेत से घर परिवार में शामिल हों</p>
+    <div class="modal-tabs">
+      <button class="modal-tab ${tab === 'buyer' ? 'active' : ''}" onclick="document.getElementById('modal-box').innerHTML=joinHTML('buyer')">🛒 I'm a Buyer</button>
+      <button class="modal-tab ${tab === 'farmer' ? 'active' : ''}" onclick="document.getElementById('modal-box').innerHTML=joinHTML('farmer')">🌾 I'm a Farmer</button>
+    </div>
+    ${tab === 'buyer' ? `
+      <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" id="r-name" placeholder="Your full name"></div>
+      <div class="form-group"><label class="form-label">Email Address</label><input class="form-input" id="r-email" placeholder="you@example.com" type="email"></div>
+      <div class="form-group"><label class="form-label">Password (min 8 chars)</label><input class="form-input" id="r-password" placeholder="Create a strong password" type="password"></div>
+      <div class="form-group"><label class="form-label">Mobile (optional)</label><input class="form-input" id="r-mobile" placeholder="+91 XXXXX XXXXX" type="tel"></div>
+      <div class="form-group"><label class="form-label">City</label><input class="form-input" id="r-city" placeholder="Your city"></div>
+      <div class="form-group"><label class="form-label">Buyer Type</label>
+        <select class="form-select" id="r-bulk"><option value="false">Regular Buyer</option><option value="true">Bulk / Business Buyer</option></select>
+      </div>
+      <button class="form-submit" onclick="registerCustomer()">🛒 Create Account</button>
+      <p style="text-align:center;margin-top:14px;font-size:13px;color:#888">Already have an account? <a href="#" onclick="openModal('login');return false" style="color:var(--leaf);font-weight:600">Log In</a></p>
+    ` : `
+      <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" id="r-name" placeholder="Your full name"></div>
+      <div class="form-group"><label class="form-label">Email Address</label><input class="form-input" id="r-email" placeholder="you@example.com" type="email"></div>
+      <div class="form-group"><label class="form-label">Password (min 8 chars)</label><input class="form-input" id="r-password" placeholder="Create a strong password" type="password"></div>
+      <div class="form-group"><label class="form-label">Mobile (optional)</label><input class="form-input" id="r-mobile" placeholder="+91 XXXXX XXXXX" type="tel"></div>
+      <div class="two-col">
+        <div class="form-group"><label class="form-label"><span class="en">Village</span><span class="hi">गाँव</span></label><input class="form-input" id="r-village" placeholder="Your village"></div>
+        <div class="form-group"><label class="form-label"><span class="en">District</span><span class="hi">ज़िला</span></label><input class="form-input" id="r-district" placeholder="e.g. Ludhiana"></div>
+      </div>
+      <div class="form-group"><label class="form-label"><span class="en">State</span><span class="hi">राज्य</span></label>
+        <select class="form-select" id="r-state">
+          <option>Punjab</option><option>Haryana</option><option>Uttar Pradesh</option>
+          <option>Rajasthan</option><option>Maharashtra</option><option>Madhya Pradesh</option><option>Other</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label"><span class="en">What do you grow?</span><span class="hi">क्या उगाते हैं?</span></label><input class="form-input" id="r-crops" placeholder="e.g. Wheat, Rice, Onions (comma separated)"></div>
+      <button class="form-submit" onclick="registerFarmerSubmit()"><span class="en">🌾 Register as Farmer</span><span class="hi">🌾 किसान बनें</span></button>
+    `}`;
+    }
+
+    async function registerCustomer() {
+      const name = document.getElementById('r-name').value.trim();
+      const email = document.getElementById('r-email').value.trim();
+      const password = document.getElementById('r-password').value;
+      const mobile = document.getElementById('r-mobile').value.trim() || null;
+      const city = document.getElementById('r-city').value.trim();
+      const bulk = document.getElementById('r-bulk').value === 'true';
+      if (!name || !email || !password) { showToast('Please fill name, email & password', 'error'); return; }
+      if (password.length < 8) { showToast('Password must be at least 8 characters', 'error'); return; }
+      const btn = document.querySelector('.form-submit');
+      btn.disabled = true; btn.textContent = 'Creating account…';
+      try {
+        // Step 1: Supabase Auth signup
+        const { data: authData, error: authErr } = await db.auth.signUp({
+          email, password,
+          options: { emailRedirectTo: window.location.href, data: { name, role: 'customer' } }
+        });
+        if (authErr) throw authErr;
+        // Step 2: Upsert profile with auth_uid
+        const authUid = authData?.user?.id || null;
+        const ins = { name, email, city, is_bulk_buyer: bulk, auth_uid: authUid };
+        if (mobile) ins.mobile = mobile;
+        const { error: dbErr } = await db.from('customers').upsert([ins], { onConflict: 'email' });
+        if (dbErr) throw dbErr;
+        // Step 3: If email confirmed (confirm OFF), stay logged in. Otherwise sign out.
+        if (authData?.user?.email_confirmed_at) {
+          await restoreSession();
+          closeModal();
+          showToast('🎉 Welcome ' + name + '!', 'success');
+          showDashboard();
+        } else {
+          await db.auth.signOut();
+          closeModal();
+          showToast('✅ Check ' + email + ' for a confirmation link, then log in.', 'success');
+        }
+      } catch (e) {
+        btn.disabled = false; btn.textContent = '🛒 Create Account';
+        const msg = e.message || '';
+        if (msg.includes('already') || msg.includes('duplicate')) { showToast('Email already registered. Please log in.', 'error'); }
+        else { showToast('Registration failed: ' + msg, 'error'); }
+      }
+    }
+
+    async function registerFarmerSubmit() {
+      const name = document.getElementById('r-name').value.trim();
+      const email = document.getElementById('r-email').value.trim();
+      const password = document.getElementById('r-password').value;
+      const mobile = document.getElementById('r-mobile').value.trim() || null;
+      const village = document.getElementById('r-village').value.trim();
+      const district = document.getElementById('r-district').value.trim();
+      const state = document.getElementById('r-state').value;
+      const crops = (document.getElementById('r-crops').value || '').split(',').map(c => c.trim()).filter(Boolean);
+      if (!name || !email || !password) { showToast('Please fill name, email & password', 'error'); return; }
+      if (password.length < 8) { showToast('Password must be at least 8 characters', 'error'); return; }
+      const btn = document.querySelector('.form-submit');
+      btn.disabled = true; btn.textContent = 'Registering…';
+      try {
+        // Step 1: Supabase Auth signup
+        const { data: authData, error: authErr } = await db.auth.signUp({
+          email, password,
+          options: { emailRedirectTo: window.location.href, data: { name, role: 'farmer' } }
+        });
+        if (authErr) throw authErr;
+        // Step 2: Upsert profile with auth_uid
+        const authUid = authData?.user?.id || null;
+        const ins = { name, email, village, district, state, crops_grown: crops, auth_uid: authUid };
+        if (mobile) ins.mobile = mobile;
+        const { error: dbErr } = await db.from('farmers').upsert([ins], { onConflict: 'email' });
+        if (dbErr) throw dbErr;
+        // Step 3: If email confirmed (confirm OFF), stay logged in. Otherwise sign out.
+        if (authData?.user?.email_confirmed_at) {
+          await restoreSession();
+          closeModal();
+          showToast('🌾 Welcome Farmer ' + name + '!', 'success');
+          loadFarmers();
+          showDashboard();
+        } else {
+          await db.auth.signOut();
+          closeModal();
+          showToast('✅ Check ' + email + ' for a confirmation link, then log in.', 'success');
+        }
+      } catch (e) {
+        btn.disabled = false; btn.textContent = '🌾 Register as Farmer';
+        const msg = e.message || '';
+        if (msg.includes('already') || msg.includes('duplicate')) { showToast('Email already registered. Please log in.', 'error'); }
+        else { showToast('Registration failed: ' + msg, 'error'); }
+      }
+    }
+
+    // ── LIST PRODUCT (for registered farmers) ──
+    function listProductHTML() {
+      const isFarmer = currentUser?.type === 'farmer';
+      if (!isFarmer) return `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2 class="modal-title">List Your Crop</h2>
+    <p style="color:var(--earth);margin-top:12px">Please register as a farmer first.</p>
+    <button class="form-submit" style="margin-top:20px" onclick="openModal('farmer-register')">Register as Farmer</button>`;
+      return `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2 class="modal-title">📸 List Your Crop</h2>
+    <p class="modal-sub">अपनी फसल सूचीबद्ध करें</p>
+    <div class="two-col">
+      <div class="form-group"><label class="form-label">Crop Name (English)</label><input class="form-input" id="p-name" placeholder="e.g. Wheat"></div>
+      <div class="form-group"><label class="form-label">फसल का नाम (हिंदी)</label><input class="form-input" id="p-hindi" placeholder="e.g. गेहूँ"></div>
+    </div>
+    <div class="two-col">
+      <div class="form-group"><label class="form-label">Emoji Icon</label><input class="form-input" id="p-emoji" placeholder="e.g. 🌾" maxlength="4"></div>
+      <div class="form-group"><label class="form-label">Category</label>
+        <select class="form-select" id="p-cat"><option value="grain"><span class="en">Grain</span><span class="hi">अनाज</span></option><option value="veg"><span class="en">Vegetable</span><span class="hi">सब्ज़ी</span></option><option value="fruit"><span class="en">Fruit</span><span class="hi">फल</span></option><option value="dairy"><span class="en">Dairy</span><span class="hi">डेयरी</span></option><option value="spice"><span class="en">Spice</span><span class="hi">मसाला</span></option><option value="other">Other</option></select>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="form-group"><label class="form-label">Price per Unit (₹)</label><input class="form-input" id="p-price" type="number" placeholder="e.g. 25"></div>
+      <div class="form-group"><label class="form-label">Unit</label>
+        <select class="form-select" id="p-unit"><option value="kg">kg</option><option value="litre">litre</option><option value="dozen">dozen</option><option value="quintal">quintal</option><option value="piece">piece</option></select>
+      </div>
+    </div>
+    <div class="form-group"><label class="form-label">Available Quantity</label><input class="form-input" id="p-qty" type="number" placeholder="e.g. 500"></div>
+    <div class="form-group"><label class="form-label">Description (optional)</label><input class="form-input" id="p-desc" placeholder="Fresh from this week's harvest…"></div>
+    <div class="form-group"><label class="form-label">Quality</label>
+      <select class="form-select" id="p-organic"><option value="false">⚡ Fresh (Regular)</option><option value="true">🌿 Organic</option></select>
+    </div>
+    <button class="form-submit" onclick="listProduct()">🌾 <span class="en">List Crop</span><span class="hi">फसल लिस्ट करें</span></button>`;
+    }
+
+    async function listProduct() {
+      const name = document.getElementById('p-name').value.trim();
+      const nameHindi = document.getElementById('p-hindi').value.trim();
+      const emoji = document.getElementById('p-emoji').value.trim() || '🌾';
+      const category = document.getElementById('p-cat').value;
+      const price = parseFloat(document.getElementById('p-price').value);
+      const unit = document.getElementById('p-unit').value;
+      const qty = parseFloat(document.getElementById('p-qty').value);
+      const desc = document.getElementById('p-desc').value.trim();
+      const organic = document.getElementById('p-organic').value === 'true';
+      if (!name || !price || !qty) { showToast('Please fill name, price & quantity', 'error'); return; }
+      const btn = document.querySelector('.form-submit');
+      btn.disabled = true; btn.textContent = 'Listing…';
+      try {
+        const bgMap = { grain: '#FFF9E6', veg: '#E8F5E9', fruit: '#FFF3E0', dairy: '#F5F5FF', spice: '#FFF0F0', other: '#F0F4FF' };
+        const { error } = await db.from('products').insert([{
+          farmer_id: currentUser.id,
+          name, name_hindi: nameHindi, emoji, category,
+          price_per_unit: price, unit,
+          quantity_available: qty,
+          description: desc,
+          is_organic: organic,
+          bg_color: bgMap[category] || '#FFF9E6'
+        }]);
+        if (error) throw error;
+        closeModal();
+        showToast(`✅ "${name}" listed successfully!`, 'success');
+        loadProducts();
+        loadFarmerDashboard();
+      } catch (e) {
+        btn.disabled = false; btn.textContent = '🌾 List Crop';
+        showToast('❌ ' + e.message, 'error');
+      }
+    }
+
+    // ── ORDER MODAL ──
+    function openOrderModal(productId) {
+      if (!currentUser) {
+        showToast('Please log in to view product details and order.', 'error');
+        openModal('login');
+        return;
+      }
+      activeProduct = allProducts.find(p => p.id === productId);
+      if (!activeProduct) return;
+      openModal('order', activeProduct);
+    }
+
+    function orderHTML(p) {
+      return `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2 class="modal-title">${p.emoji || '🌾'} ${p.name}</h2>
+    <p class="modal-sub">${p.name_hindi || ''} — by ${p.farmers?.name || 'Farmer'}</p>
+    <div class="order-summary">
+      <div class="order-row"><span>Price</span><span style="font-weight:700;color:var(--leaf)">₹${p.price_per_unit}/${p.unit}</span></div>
+      <div class="order-row"><span>Available</span><span>${p.quantity_available} ${p.unit}</span></div>
+      <div class="order-row"><span>Quality</span><span>${p.is_organic ? '🌿 Organic' : '⚡ Fresh'}</span></div>
+      <div class="order-row"><span>Farmer</span><span>📍 ${p.farmers?.district || ''}, ${p.farmers?.state || ''}</span></div>
+    </div>
+    <div class="form-group"><label class="form-label"><span class="en">Your Name</span><span class="hi">आपका नाम</span></label><input class="form-input" id="o-name" placeholder="Your full name" value="${currentUser?.name || ''}"></div>
+    <div class="form-group"><label class="form-label"><span class="en">Mobile</span><span class="hi">मोबाइल</span></label><input class="form-input" id="o-mobile" placeholder="+91 XXXXX XXXXX" type="tel"></div>
+    <div class="form-group"><label class="form-label">Quantity (${p.unit})</label><input class="form-input" id="o-qty" type="number" min="1" max="${p.quantity_available}" value="1" oninput="updateTotal(${p.price_per_unit})"></div>
+    <div class="form-group"><label class="form-label"><span class="en">Delivery Address</span><span class="hi">डिलीवरी का पता</span></label><input class="form-input" id="o-address" placeholder="Full delivery address with pincode"></div>
+    <div class="form-group"><label class="form-label"><span class="en">Payment Method</span><span class="hi">भुगतान का तरीका</span></label>
+      <select class="form-select" id="o-method" onchange="toggleUPI(this.value)">
+        <option value="upi">📱 UPI (GPay / PhonePe)</option>
+        <option value="cod">💵 Cash on Delivery</option>
+        <option value="card">💳 Card</option>
+      </select>
+    </div>
+    <div id="upi-row" class="form-group">
+      <label class="form-label">UPI ID</label>
+      <input class="form-input" id="o-upi" placeholder="yourname@upi">
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;background:var(--cream);padding:14px 16px;border-radius:13px;margin:14px 0">
+      <span style="font-weight:700">Total Amount</span>
+      <span id="o-total" style="font-size:20px;font-weight:800;color:var(--leaf)">₹${p.price_per_unit}</span>
+    </div>
+    <button class="form-submit" onclick="placeOrder()"><span class="en">✅ Place Order</span><span class="hi">✅ ऑर्डर दें</span></button>`;
+    }
+
+    function updateTotal(price) {
+      const qty = parseFloat(document.getElementById('o-qty')?.value) || 1;
+      const el = document.getElementById('o-total');
+      if (el) el.textContent = '₹' + (price * qty).toFixed(2);
+    }
+
+    function toggleUPI(method) {
+      const row = document.getElementById('upi-row');
+      if (row) row.style.display = method === 'upi' ? 'block' : 'none';
+    }
+
+    async function placeOrder() {
+      const name = document.getElementById('o-name').value.trim();
+      const mobile = document.getElementById('o-mobile').value.trim();
+      const qty = parseFloat(document.getElementById('o-qty').value);
+      const address = document.getElementById('o-address').value.trim();
+      const method = document.getElementById('o-method').value;
+      const upiId = document.getElementById('o-upi')?.value.trim();
+      if (!name || !mobile || !qty || !address) { showToast('Please fill all required fields', 'error'); return; }
+      const btn = document.querySelector('.form-submit');
+      btn.disabled = true; btn.textContent = 'Placing Order…';
+      try {
+        // Upsert customer
+        let custId = currentUser?.id;
+        if (!custId || currentUser?.type !== 'customer') {
+          const { data: cust, error: cErr } = await db.from('customers').upsert([{ name, mobile }], { onConflict: 'mobile' }).select().single();
+          if (cErr) throw cErr;
+          custId = cust.id;
+          currentUser = { type: 'customer', id: custId, name };
+        }
+        const total = activeProduct.price_per_unit * qty;
+        // Place order
+        const { data: order, error: oErr } = await db.from('orders').insert([{
+          customer_id: custId,
+          farmer_id: activeProduct.farmer_id,
+          product_id: activeProduct.id,
+          quantity: qty, unit: activeProduct.unit,
+          price_per_unit: activeProduct.price_per_unit,
+          total_amount: total,
+          delivery_address: address,
+          status: 'pending'
+        }]).select().single();
+        if (oErr) throw oErr;
+        // Record payment
+        await db.from('payments').insert([{
+          order_id: order.id,
+          farmer_id: activeProduct.farmer_id,
+          customer_id: custId,
+          amount: total, method,
+          upi_id: upiId || null,
+          status: method === 'cod' ? 'pending' : 'success',
+          paid_at: method !== 'cod' ? new Date().toISOString() : null
+        }]);
+        closeModal();
+        showToast(`🎉 Order placed! ₹${total.toFixed(0)} via ${method.toUpperCase()}`, 'success');
+        loadProducts();
+      } catch (e) {
+        btn.disabled = false; btn.textContent = '✅ Place Order';
+        showToast('❌ Order failed: ' + e.message, 'error');
+      }
+    }
+
+    // ── CART ──
+    function cartHTML() {
+      if (!cart.length) return `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2 class="modal-title">Your Cart 🛒</h2>
+    <div style="text-align:center;padding:40px;color:var(--earth)">🌿 Cart is empty.<br>Go shop some fresh produce!</div>
+    <button class="form-submit" onclick="closeModal();document.getElementById('products').scrollIntoView({behavior:'smooth'})">Browse Products</button>`;
+      const total = cart.reduce((s, i) => s + (i.price_per_unit * i.qty), 0);
+      return `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2 class="modal-title">Your Cart 🛒</h2>
+    <div style="max-height:300px;overflow-y:auto;margin:18px 0">
+      ${cart.map((item, idx) => `
+        <div style="display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--border)">
+          <span style="font-size:26px">${item.emoji || '🌾'}</span>
+          <div style="flex:1">
+            <div style="font-weight:600;font-size:14px">${item.name}</div>
+            <div style="font-size:11px;color:#888">${item.farmer_name || 'Farmer'}</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:7px">
+            <button onclick="changeQty(${idx},-1)" style="width:26px;height:26px;border-radius:50%;border:2px solid var(--border);background:transparent;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center">−</button>
+            <span style="font-weight:700;min-width:18px;text-align:center">${item.qty}</span>
+            <button onclick="changeQty(${idx},1)" style="width:26px;height:26px;border-radius:50%;border:none;background:var(--leaf);color:white;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center">+</button>
+          </div>
+          <div style="font-weight:700;color:var(--leaf);min-width:64px;text-align:right">₹${(item.price_per_unit * item.qty).toFixed(0)}</div>
+        </div>`).join('')}
+    </div>
+    <div style="display:flex;justify-content:space-between;font-weight:800;font-size:18px;padding:14px;background:var(--cream);border-radius:13px;margin-bottom:14px">
+      <span>Total</span><span style="color:var(--leaf)">₹${total.toFixed(2)}</span>
+    </div>
+    <button class="form-submit" onclick="checkoutCart()"><span class="en">💳 Proceed to Pay</span><span class="hi">💳 भुगतान करें</span></button>`;
+    }
+
+    function changeQty(idx, delta) {
+      cart[idx].qty = Math.max(0, cart[idx].qty + delta);
+      if (cart[idx].qty === 0) cart.splice(idx, 1);
+      updateCartBadge();
+      openModal('cart');
+    }
+
+    async function checkoutCart() {
+      showToast('💳 Redirecting to payment…', 'success');
+      closeModal();
+      // In production: integrate Razorpay/PayU here
+    }
+
+    let activeChat = null;
+
+    // ── CHAT ──
+    function openChatModal(otherId, otherName, roleOfOther = 'farmer') {
+      if (!currentUser) {
+        showToast('Please log in to chat.', 'error');
+        openModal('login');
+        return;
+      }
+      let farmerId, customerId;
+      if (roleOfOther === 'farmer') {
+        farmerId = otherId;
+        customerId = currentUser.id;
+      } else {
+        farmerId = currentUser.id;
+        customerId = otherId;
+      }
+      activeChat = { farmerId, customerId };
+      openModal('chat', { farmerId, customerId, otherName });
+    }
+
+    function chatHTML(data) {
+      return `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2 class="modal-title">💬 Chat with ${data.otherName}</h2>
+    <p class="modal-sub"><span class="en">Direct message</span><span class="hi">सीधी बात</span></p>
+    <div class="chat-messages" id="chat-messages"><div style="text-align:center;color:#aaa;font-size:13px;padding:20px">Loading messages…</div></div>
+    ${!currentUser ? `<div class="form-group"><label class="form-label">Your Name to Chat</label><input class="form-input" id="chat-sender-name" placeholder="Enter your name"></div>` : ''}
+    <div class="chat-input-row">
+      <input class="chat-input" id="chat-input" placeholder="Type a message… संदेश लिखें" onkeydown="if(event.key==='Enter')sendMessage('${data.farmerId}', '${data.customerId}')">
+      <button class="chat-send" onclick="sendMessage('${data.farmerId}', '${data.customerId}')">➤</button>
+    </div>`;
+    }
+
+    async function loadChatMessages(farmerId, customerId) {
+      try {
+        let query = db.from('messages').select('*').eq('farmer_id', farmerId);
+        if (customerId) query = query.eq('customer_id', customerId);
+        
+        const { data, error } = await query.order('created_at', { ascending: true }).limit(60);
+        if (error) throw error;
+        const box = document.getElementById('chat-messages');
+        if (!box) return;
+        if (!data?.length) { box.innerHTML = '<div style="text-align:center;color:#aaa;font-size:13px;padding:20px">No messages yet. Say hello! 👋</div>'; return; }
+        
+        box.innerHTML = data.map(m => {
+          const isMe = m.sender_type === currentUser.type;
+          const alignClass = isMe ? 'customer' : 'farmer'; 
+          return `
+      <div class="chat-msg ${alignClass}">
+        ${m.message}
+        <div class="chat-msg-time">${new Date(m.created_at).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</div>
+      </div>`;
+        }).join('');
+        box.scrollTop = box.scrollHeight;
+      } catch (e) { console.error('Chat load:', e); }
+    }
+
+    async function sendMessage(farmerId, customerId) {
+      const input = document.getElementById('chat-input');
+      const msg = input?.value.trim();
+      if (!msg) return;
+      try {
+        let custId = customerId || currentUser?.id;
+        if (!custId) {
+          const senderName = document.getElementById('chat-sender-name')?.value.trim() || 'Guest';
+          const mobile = '9' + Date.now().toString().slice(-9);
+          const { data } = await db.from('customers').insert([{ name: senderName, mobile }]).select().single();
+          custId = data?.id;
+          currentUser = { type: 'customer', id: custId, name: senderName };
+        }
+        const senderType = currentUser?.type === 'farmer' ? 'farmer' : 'customer';
+        const { error } = await db.from('messages').insert([{ farmer_id: farmerId, customer_id: custId, sender_type: senderType, message: msg }]);
+        if (error) throw error;
+        input.value = '';
+        await loadChatMessages(farmerId, custId);
+      } catch (e) { showToast('❌ Message failed: ' + e.message, 'error'); }
+    }
+
+    // ═══════════════════════════════════════════════
+    //  REALTIME
+    // ═══════════════════════════════════════════════
+    function setupRealtime() {
+      db.channel('products-rt').on('postgres_changes', { event: '*', schema: 'public', table: 'products' }, () => loadProducts()).subscribe();
+      db.channel('farmers-rt').on('postgres_changes', { event: '*', schema: 'public', table: 'farmers' }, () => loadFarmers()).subscribe();
+      db.channel('messages-rt').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, (payload) => handleNewMessage(payload.new)).subscribe();
+    }
+
+    function handleNewMessage(msg) {
+      if (!currentUser) return;
+      if ((currentUser.type === 'farmer' && msg.farmer_id === currentUser.id) ||
+          (currentUser.type === 'customer' && msg.customer_id === currentUser.id)) {
+        
+        if (currentUser.type === 'farmer') loadFarmerMessages();
+        if (currentUser.type === 'customer') loadCustomerMessages();
+        
+        const box = document.getElementById('chat-messages');
+        if (box && activeChat && activeChat.farmerId === msg.farmer_id && activeChat.customerId === msg.customer_id) {
+          loadChatMessages(activeChat.farmerId, activeChat.customerId);
+        }
+      }
+    }
+
+    // ═══════════════════════════════════════════════
+    //  TOAST
+    // ═══════════════════════════════════════════════
+    let toastTimer;
+    function showToast(msg, type = '') {
+      clearTimeout(toastTimer);
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = `toast ${type} show`;
+      toastTimer = setTimeout(() => t.className = 'toast', 3600);
+    }
+
+    // ═══════════════════════════════════════════════
+    //  GOOGLE TRANSLATE INIT
+    // ═══════════════════════════════════════════════
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'hi,bn,te,mr,ta,ur,gu,kn,or,ml,pa,as,mai,sat,ks,ne,sd,kok,doi,mni,bho,en',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+
+    function handlePhoneCardClick() {
+      if (!currentUser) {
+        showToast('Please log in to explore the marketplace.', 'error');
+        openModal('login');
+        return;
+      }
+      showToast(isHindi ? 'देखने के लिए "अभी खरीदें" पर क्लिक करें' : 'Tap "Shop Now" to view this product!', 'success');
+    }
+
+
+    // ═══════════════════════════════════════════════
+    //  DASHBOARD
+    // ═══════════════════════════════════════════════
+    function showDashboard() {
+      if (!currentUser) return;
+      const landing = document.getElementById('landing-content');
+      const fDash = document.getElementById('farmer-dashboard');
+      const cDash = document.getElementById('customer-dashboard');
+      landing.style.display = 'none';
+      if (currentUser.type === 'farmer') {
+        fDash.classList.add('active');
+        cDash.classList.remove('active');
+        document.getElementById('fd-name').textContent = currentUser.name?.split(' ')[0] || 'Farmer';
+        document.getElementById('fd-email').textContent = currentUser.email || '';
+        loadFarmerDashboard();
+      } else {
+        cDash.classList.add('active');
+        fDash.classList.remove('active');
+        document.getElementById('cd-name').textContent = currentUser.name?.split(' ')[0] || 'Buyer';
+        document.getElementById('cd-email').textContent = currentUser.email || '';
+        loadCustomerDashboard();
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showLanding() {
+      document.getElementById('landing-content').style.display = 'block';
+      document.getElementById('farmer-dashboard').classList.remove('active');
+      document.getElementById('customer-dashboard').classList.remove('active');
+    }
+
+    async function loadFarmerMessages() {
+      try {
+        const { data: msgs } = await db.from('messages').select('*, customers(id, name)').eq('farmer_id', currentUser.id).order('created_at', { ascending: false });
+        const list = document.getElementById('fd-messages-list');
+        if (!list) return;
+        if (!msgs?.length) { list.innerHTML = '<div class="dash-empty">No messages yet.</div>'; return; }
+        const convos = {};
+        for (const m of msgs) {
+          if (!convos[m.customer_id]) convos[m.customer_id] = { customer: m.customers, lastMsg: m.message, time: m.created_at };
+        }
+        list.innerHTML = Object.values(convos).map(c => `
+          <div class="dash-product-card" style="cursor:pointer" onclick="openChatModal('${c.customer?.id || ''}', '${(c.customer?.name||'Customer').replace(/'/g,"\\'")}', 'customer')">
+            <div class="dash-product-emoji" style="background:var(--light-leaf)">👤</div>
+            <div class="dash-product-info">
+              <div class="dash-product-name">${c.customer?.name || 'Customer'}</div>
+              <div class="dash-product-meta" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px">${c.lastMsg}</div>
+            </div>
+            <div class="dash-product-price" style="font-size:12px;color:#888">${new Date(c.time).toLocaleDateString()}</div>
+          </div>
+        `).join('');
+      } catch (e) { console.error('Farmer msgs:', e); }
+    }
+
+    async function loadCustomerMessages() {
+      try {
+        const { data: msgs } = await db.from('messages').select('*, farmers(id, name)').eq('customer_id', currentUser.id).order('created_at', { ascending: false });
+        const list = document.getElementById('cd-messages-list');
+        if (!list) return;
+        if (!msgs?.length) { list.innerHTML = '<div class="dash-empty">No messages yet.</div>'; return; }
+        const convos = {};
+        for (const m of msgs) {
+          if (!convos[m.farmer_id]) convos[m.farmer_id] = { farmer: m.farmers, lastMsg: m.message, time: m.created_at };
+        }
+        list.innerHTML = Object.values(convos).map(c => `
+          <div class="dash-product-card" style="cursor:pointer" onclick="openChatModal('${c.farmer?.id || ''}', '${(c.farmer?.name||'Farmer').replace(/'/g,"\\'")}', 'farmer')">
+            <div class="dash-product-emoji" style="background:var(--light-leaf)">🌾</div>
+            <div class="dash-product-info">
+              <div class="dash-product-name">${c.farmer?.name || 'Farmer'}</div>
+              <div class="dash-product-meta" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px">${c.lastMsg}</div>
+            </div>
+            <div class="dash-product-price" style="font-size:12px;color:#888">${new Date(c.time).toLocaleDateString()}</div>
+          </div>
+        `).join('');
+        const numMsg = Object.keys(convos).length;
+        const msgNumEl = document.getElementById('cd-messages');
+        if (msgNumEl) msgNumEl.textContent = numMsg;
+      } catch (e) { console.error('Customer msgs:', e); }
+    }
+
+    async function loadFarmerDashboard() {
+      if (!currentUser || currentUser.type !== 'farmer') return;
+      try {
+        const { data: products } = await db.from('products').select('*').eq('farmer_id', currentUser.id);
+        const listings = products || [];
+        document.getElementById('fd-products').textContent = listings.length;
+        const { data: farmer } = await db.from('farmers').select('*').eq('id', currentUser.id).maybeSingle();
+        if (farmer) {
+          document.getElementById('fd-rating').textContent = farmer.rating || '-';
+          document.getElementById('fd-sales').textContent = farmer.total_sales || 0;
+        }
+        const el = document.getElementById('fd-listings');
+        if (!listings.length) {
+          el.innerHTML = '<div class="dash-empty">No crops listed yet.<br><button class="dash-btn" style="margin-top:14px" onclick="openModal(\'list-product\')">📸 List Your First Crop</button></div>';
+        } else {
+          el.innerHTML = listings.map(p => `
+            <div class="dash-product-card">
+              <div class="dash-product-emoji" style="background:${p.bg_color || '#FFF9E6'}">${p.emoji || '🌾'}</div>
+              <div class="dash-product-info">
+                <div class="dash-product-name">${p.name} ${p.name_hindi ? '· ' + p.name_hindi : ''}</div>
+                <div class="dash-product-meta">${p.quantity_available} ${p.unit} available · ${p.is_organic ? '🌿 Organic' : '⚡ Fresh'} · ${p.category}</div>
+              </div>
+              <div class="dash-product-price">₹${p.price_per_unit}/${p.unit}</div>
+            </div>`).join('');
+        }
+        await loadFarmerMessages();
+      } catch (e) { console.error('Farmer dashboard:', e); }
+    }
+
+    async function loadCustomerDashboard() {
+      if (!currentUser || currentUser.type !== 'customer') return;
+      try {
+        const { data: orders } = await db.from('orders').select('*, products(name, emoji), farmers(name)').eq('customer_id', currentUser.id).order('created_at', { ascending: false });
+        const orderList = orders || [];
+        document.getElementById('cd-orders').textContent = orderList.length;
+        document.getElementById('cd-cart').textContent = cart.length;
+        const el = document.getElementById('cd-order-list');
+        if (!orderList.length) {
+          el.innerHTML = '<div class="dash-empty">No orders yet.<br><button class="dash-btn" style="margin-top:14px" onclick="showLanding();document.getElementById(\'products\').scrollIntoView({behavior:\'smooth\'})">🛍️ Start Shopping</button></div>';
+        } else {
+          el.innerHTML = orderList.map(o => `
+            <div class="dash-product-card">
+              <div class="dash-product-emoji" style="background:var(--light-leaf)">${o.products?.emoji || '📦'}</div>
+              <div class="dash-product-info">
+                <div class="dash-product-name">${o.products?.name || 'Product'}</div>
+                <div class="dash-product-meta">From: ${o.farmers?.name || 'Farmer'} · ${o.quantity} ${o.unit} · Status: <strong>${o.status}</strong></div>
+              </div>
+              <div class="dash-product-price">₹${o.total_amount}</div>
+            </div>`).join('');
+        }
+        await loadCustomerMessages();
+      } catch (e) { console.error('Customer dashboard:', e); }
+    }
+
+    // ═══════════════════════════════════════════════
+    //  INIT
+    // ═══════════════════════════════════════════════
+    (async () => {
+      await checkConnection();
+      await Promise.all([loadProducts(), loadFarmers()]);
+      setupRealtime();
+    })();
+  </script>
+  <script type="text/javascript"
+    src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+
+</html>
