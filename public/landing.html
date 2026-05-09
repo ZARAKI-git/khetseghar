@@ -2210,7 +2210,82 @@
         <div class="dash-empty">Loading messages...</div>
       </div>
     </div>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- FARMER SEARCH SECTION                      -->
+    <!-- ══════════════════════════════════════════ -->
+    <div class="dash-section" id="farmer-search-section">
+      <div class="dash-section-title">🔍 Find Farmers by Location</div>
+      <p style="color:#666;font-size:14px;margin:-8px 0 18px">Search farmers by state, district or PIN code to find fresh produce near you.</p>
+
+      <!-- Search Fields -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:14px">
+        <div>
+          <label style="font-size:12px;font-weight:600;color:#555;display:block;margin-bottom:5px">👤 Farmer Name</label>
+          <input id="fs-name" type="text" placeholder="e.g. Gurpreet Singh"
+            style="width:100%;padding:10px 12px;border:1.5px solid #ddd;border-radius:10px;font-size:14px;outline:none;box-sizing:border-box"
+            onfocus="this.style.borderColor='var(--leaf,#4caf50)'" onblur="this.style.borderColor='#ddd'"
+            onkeydown="if(event.key==='Enter') searchFarmersByLocation()" />
+        </div>
+        <div>
+          <label style="font-size:12px;font-weight:600;color:#555;display:block;margin-bottom:5px">🗺️ State</label>
+          <input id="fs-state" type="text" placeholder="e.g. Punjab" list="fs-state-list"
+            style="width:100%;padding:10px 12px;border:1.5px solid #ddd;border-radius:10px;font-size:14px;outline:none;box-sizing:border-box"
+            onfocus="this.style.borderColor='var(--leaf,#4caf50)'" onblur="this.style.borderColor='#ddd'"
+            onkeydown="if(event.key==='Enter') searchFarmersByLocation()" />
+          <datalist id="fs-state-list">
+            <option value="Andhra Pradesh"/><option value="Arunachal Pradesh"/><option value="Assam"/>
+            <option value="Bihar"/><option value="Chhattisgarh"/><option value="Goa"/><option value="Gujarat"/>
+            <option value="Haryana"/><option value="Himachal Pradesh"/><option value="Jharkhand"/>
+            <option value="Karnataka"/><option value="Kerala"/><option value="Madhya Pradesh"/>
+            <option value="Maharashtra"/><option value="Manipur"/><option value="Meghalaya"/>
+            <option value="Mizoram"/><option value="Nagaland"/><option value="Odisha"/><option value="Punjab"/>
+            <option value="Rajasthan"/><option value="Sikkim"/><option value="Tamil Nadu"/>
+            <option value="Telangana"/><option value="Tripura"/><option value="Uttar Pradesh"/>
+            <option value="Uttarakhand"/><option value="West Bengal"/><option value="Delhi"/>
+            <option value="Jammu & Kashmir"/><option value="Ladakh"/><option value="Chandigarh"/>
+            <option value="Puducherry"/>
+          </datalist>
+        </div>
+        <div>
+          <label style="font-size:12px;font-weight:600;color:#555;display:block;margin-bottom:5px">📍 District / City</label>
+          <input id="fs-district" type="text" placeholder="e.g. Ludhiana"
+            style="width:100%;padding:10px 12px;border:1.5px solid #ddd;border-radius:10px;font-size:14px;outline:none;box-sizing:border-box"
+            onfocus="this.style.borderColor='var(--leaf,#4caf50)'" onblur="this.style.borderColor='#ddd'"
+            onkeydown="if(event.key==='Enter') searchFarmersByLocation()" />
+        </div>
+        <div>
+          <label style="font-size:12px;font-weight:600;color:#555;display:block;margin-bottom:5px">🔢 PIN Code</label>
+          <input id="fs-pincode" type="text" placeholder="e.g. 141001" maxlength="6"
+            style="width:100%;padding:10px 12px;border:1.5px solid #ddd;border-radius:10px;font-size:14px;outline:none;box-sizing:border-box"
+            onfocus="this.style.borderColor='var(--leaf,#4caf50)'" onblur="this.style.borderColor='#ddd'"
+            oninput="this.value=this.value.replace(/\D/g,'')"
+            onkeydown="if(event.key==='Enter') searchFarmersByLocation()" />
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap">
+        <button onclick="searchFarmersByLocation()"
+          style="background:var(--leaf,#4caf50);color:#fff;border:none;padding:11px 24px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px">
+          🔍 Search Farmers
+        </button>
+        <button onclick="clearFarmerSearch()"
+          style="background:#f5f5f5;color:#555;border:1.5px solid #ddd;padding:11px 20px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer">
+          ✕ Clear
+        </button>
+      </div>
+
+      <!-- Results -->
+      <div id="fs-results">
+        <div style="text-align:center;color:#aaa;padding:30px 0;font-size:14px">
+          Enter a location above and click Search to find farmers 🌾
+        </div>
+      </div>
+    </div>
+
   </div>
+  <!-- end customer-dashboard -->
 
   <!-- LANDING CONTENT WRAPPER -->
   <div id="landing-content">
@@ -3537,6 +3612,114 @@
         }
         await loadFarmerMessages();
       } catch (e) { console.error('Farmer dashboard:', e); }
+    }
+
+    // ═══════════════════════════════════════════════
+    //  FARMER LOCATION SEARCH (Buyer Dashboard)
+    // ═══════════════════════════════════════════════
+    async function searchFarmersByLocation() {
+      const name     = (document.getElementById('fs-name')?.value || '').trim();
+      const state    = (document.getElementById('fs-state')?.value || '').trim();
+      const district = (document.getElementById('fs-district')?.value || '').trim();
+      const pincode  = (document.getElementById('fs-pincode')?.value || '').trim();
+
+      const resultsEl = document.getElementById('fs-results');
+      if (!name && !state && !district && !pincode) {
+        resultsEl.innerHTML = '<div style="color:#e67e22;font-size:14px;padding:12px 0">⚠️ Please enter at least one search field.</div>';
+        return;
+      }
+
+      resultsEl.innerHTML = '<div style="text-align:center;padding:30px;color:#888;font-size:14px">🔄 Searching farmers...</div>';
+
+      try {
+        let query = db.from('farmers').select('*').eq('is_active', true);
+        if (name)     query = query.ilike('name', `%${name}%`);
+        if (state)    query = query.ilike('state', `%${state}%`);
+        if (district) query = query.ilike('district', `%${district}%`);
+        if (pincode)  query = query.ilike('pincode', `%${pincode}%`);
+
+        const { data: farmers, error } = await query.order('name');
+        if (error) throw error;
+
+        if (!farmers || farmers.length === 0) {
+          resultsEl.innerHTML = `
+            <div style="text-align:center;padding:40px 20px">
+              <div style="font-size:40px;margin-bottom:10px">🌾</div>
+              <p style="color:#888;font-size:15px;font-weight:600">No farmers found in this area</p>
+              <p style="color:#aaa;font-size:13px;margin-top:4px">Try a different state, district, or PIN code.</p>
+            </div>`;
+          return;
+        }
+
+        const cards = farmers.map(f => {
+          const locationParts = [f.district, f.state].filter(Boolean).join(', ');
+          const emoji = f.avatar_emoji || '🧑‍🌾';
+          const rating = f.rating ? `⭐ ${parseFloat(f.rating).toFixed(1)}` : '';
+          return `
+            <div style="background:#fff;border:1.5px solid #e8f5e9;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;box-shadow:0 2px 8px rgba(0,0,0,0.05)">
+              <div style="display:flex;align-items:center;gap:12px">
+                <div style="font-size:32px;background:#f1f8e9;border-radius:50%;width:52px;height:52px;display:flex;align-items:center;justify-content:center;flex-shrink:0">${emoji}</div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-weight:700;font-size:15px;color:#1a1a1a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${f.name || 'Farmer'}</div>
+                  ${locationParts ? `<div style="font-size:12px;color:#888;margin-top:2px">📍 ${locationParts}</div>` : ''}
+                  ${rating ? `<div style="font-size:12px;color:#f39c12;margin-top:2px">${rating}</div>` : ''}
+                </div>
+              </div>
+              ${f.pincode ? `<div style="font-size:12px;color:#666">📮 PIN: <strong>${f.pincode}</strong></div>` : ''}
+              ${f.phone ? `<div style="font-size:12px;color:#666">📞 ${f.phone}</div>` : ''}
+              <div style="display:flex;gap:8px;margin-top:4px">
+                <button onclick="filterProductsByFarmer('${f.id}','${(f.name||'').replace(/'/g,"\\'")}' )"
+                  style="flex:1;background:var(--leaf,#4caf50);color:#fff;border:none;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">
+                  🛒 View Products
+                </button>
+                <button onclick="startChatWithFarmer('${f.id}')"
+                  style="background:#f0f4ff;color:#3b5bdb;border:1.5px solid #c5d0fa;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">
+                  💬
+                </button>
+              </div>
+            </div>`;
+        }).join('');
+
+        resultsEl.innerHTML = `
+          <p style="font-size:13px;color:#666;margin-bottom:14px">Found <strong>${farmers.length}</strong> farmer${farmers.length !== 1 ? 's' : ''}</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px">${cards}</div>`;
+
+      } catch (err) {
+        console.error('Farmer search error:', err);
+        resultsEl.innerHTML = '<div style="color:#e74c3c;font-size:14px;padding:12px 0">❌ Search failed. Please try again.</div>';
+      }
+    }
+
+    function clearFarmerSearch() {
+      ['fs-name','fs-state','fs-district','fs-pincode'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+      const resultsEl = document.getElementById('fs-results');
+      if (resultsEl) resultsEl.innerHTML = '<div style="text-align:center;color:#aaa;padding:30px 0;font-size:14px">Enter a location above and click Search to find farmers 🌾</div>';
+    }
+
+    function filterProductsByFarmer(farmerId, farmerName) {
+      // Scroll to products and filter by farmer
+      showLanding();
+      setTimeout(() => {
+        document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+        // filter allProducts by farmer
+        const filtered = allProducts.filter(p => p.farmer_id === farmerId || p.farmers?.id === farmerId);
+        if (filtered.length > 0) {
+          renderProducts(filtered);
+        }
+      }, 400);
+    }
+
+    function startChatWithFarmer(farmerId) {
+      // Open the chat modal if it exists, or show alert
+      if (typeof openChat === 'function') {
+        openChat(farmerId);
+      } else {
+        showLanding();
+        setTimeout(() => openModal && openModal('messages'), 300);
+      }
     }
 
     async function loadCustomerDashboard() {
